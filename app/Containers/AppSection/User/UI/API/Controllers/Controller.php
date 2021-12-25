@@ -2,7 +2,6 @@
 
 namespace App\Containers\AppSection\User\UI\API\Controllers;
 
-use App\Containers\AppSection\User\Actions\CreateAdminAction;
 use App\Containers\AppSection\User\Actions\DeleteUserAction;
 use App\Containers\AppSection\User\Actions\FindUserByIdAction;
 use App\Containers\AppSection\User\Actions\ForgotPasswordAction;

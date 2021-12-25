@@ -34,13 +34,9 @@ class ProxyLoginPasswordGrantRequest extends Request
      */
     public function rules(): array
     {
-        $rules = [
+        return loginAttributeValidationRulesMerger([
             'password' => 'required|min:3|max:30',
-        ];
-
-        $rules = loginAttributeValidationRulesMerger($rules);
-
-        return $rules;
+        ]);
     }
 
     /**

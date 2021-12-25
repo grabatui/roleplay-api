@@ -50,7 +50,7 @@ class ApiTestCase extends BaseTestCase
     {
         $filePath = storage_path($fileName);
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             $keysStubDirectory = __DIR__ . '/Stubs/';
 
             copy($keysStubDirectory . $fileName, $filePath);

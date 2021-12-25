@@ -41,7 +41,6 @@ class User extends UserModel
     ];
 
     protected $casts = [
-        'is_admin' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
 }

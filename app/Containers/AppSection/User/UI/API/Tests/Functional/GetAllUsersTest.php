@@ -20,31 +20,6 @@ class GetAllUsersTest extends ApiTestCase
         'permissions' => 'list-users',
     ];
 
-    public function testGetAllUsersByAdmin(): void
-    {
-        User::factory()->count(2)->create();
-
-        $response = $this->makeCall();
-
-        $response->assertStatus(200);
-        $responseContent = $this->getResponseContentObject();
-
-        self::assertCount(4, $responseContent->data);
-    }
-
-    public function testGetAllUsersByNonAdmin(): void
-    {
-        $this->getTestingUserWithoutAccess();
-        User::factory()->count(2)->create();
-
-        $response = $this->makeCall();
-
-        $response->assertStatus(403);
-        $this->assertResponseContainKeyValue([
-            'message' => 'This action is unauthorized.',
-        ]);
-    }
-
     public function testSearchUsersByName(): void
     {
         User::factory()->count(3)->create();

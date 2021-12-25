@@ -26,7 +26,7 @@ class CallOAuthServerTask extends Task
         $content = Utils::jsonDecode($response->getContent(), true);
 
         // If the internal request to the oauth token endpoint was not successful we throw an exception
-        if (!$response->isSuccessful()) {
+        if (! $response->isSuccessful()) {
             throw new LoginFailedException($content['message'], $response->getStatusCode());
         }
 

@@ -19,21 +19,31 @@ class ProxyLoginForWebClientAction extends Action
     {
         $sanitizedData = $request->sanitizeInput(
             array_merge(
-                array_keys(config('appSection-authentication.login.attributes')),
+                array_keys(
+                    config('appSection-authentication.login.attributes')
+                ),
                 ['password']
             )
         );
 
         $loginCustomAttribute = app(ExtractLoginCustomAttributeTask::class)->run($sanitizedData);
 
-        $sanitizedData['username'] = $loginCustomAttribute['username'];
-        $sanitizedData['client_id'] = config('appSection-authentication.clients.web.id');
-        $sanitizedData['client_secret'] = config('appSection-authentication.clients.web.secret');
-        $sanitizedData['grant_type'] = 'password';
-        $sanitizedData['scope'] = '';
+        $responseContent = app(CallOAuthServerTask::class)->run(
+            array_merge(
+                $sanitizedData,
+                [
+                    'username' => $loginCustomAttribute['username'],
+                    'client_id' => config('appSection-authentication.clients.web.id'),
+                    'client_secret' => config('appSection-authentication.clients.web.secret'),
+                    'grant_type' => 'password',
+                    'scope' => '',
+                ]
+            ),
+            $request->headers->get('accept-language')
+        );
 
-        $responseContent = app(CallOAuthServerTask::class)->run($sanitizedData, $request->headers->get('accept-language'));
         $this->processEmailConfirmationIfNeeded($responseContent);
+
         $refreshCookie = app(MakeRefreshCookieTask::class)->run($responseContent['refresh_token']);
 
         return [
@@ -42,12 +52,15 @@ class ProxyLoginForWebClientAction extends Action
         ];
     }
 
+    /**
+     * @throws UserNotConfirmedException
+     */
     private function processEmailConfirmationIfNeeded($response): void
     {
         $user = $this->extractUserFromAuthServerResponse($response);
         $isUserConfirmed = app(CheckIfUserEmailIsConfirmedTask::class)->run($user);
 
-        if (!$isUserConfirmed) {
+        if (! $isUserConfirmed) {
             throw new UserNotConfirmedException();
         }
     }
