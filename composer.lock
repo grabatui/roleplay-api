@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd9869c1a88e07461184e6ea6606827f",
+    "content-hash": "b7c48cf86abb0ba240c00526539ec3ea",
     "packages": [
         {
             "name": "apiato/container-installer",
@@ -130,17 +130,21 @@
         },
         {
             "name": "apiato/documentation-generator-container",
-            "version": "v1.0.0",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/apiato/documentation-generator-container.git",
-                "reference": "ade29c3e14c34a70b2d3059ea4c07dd4477b9265"
+                "reference": "6eb2041e743810536d261d941308f44a8638449d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apiato/documentation-generator-container/zipball/ade29c3e14c34a70b2d3059ea4c07dd4477b9265",
-                "reference": "ade29c3e14c34a70b2d3059ea4c07dd4477b9265",
+                "url": "https://api.github.com/repos/apiato/documentation-generator-container/zipball/6eb2041e743810536d261d941308f44a8638449d",
+                "reference": "6eb2041e743810536d261d941308f44a8638449d",
                 "shasum": ""
+            },
+            "require-dev": {
+                "apiato/core": "dev-master",
+                "orchestra/testbench": "^6.21"
             },
             "type": "apiato-container",
             "extra": {
@@ -148,6 +152,11 @@
                     "container": {
                         "name": "Documentation"
                     }
+                },
+                "laravel": {
+                    "providers": [
+                        "App\\Containers\\Vendor\\Documentation\\Providers\\DocumentGeneratorServiceProvider"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -157,9 +166,9 @@
             "description": "An Apiato container which can creates a documentation from API annotations in your source code.",
             "support": {
                 "issues": "https://github.com/apiato/documentation-generator-container/issues",
-                "source": "https://github.com/apiato/documentation-generator-container/tree/v1.0.0"
+                "source": "https://github.com/apiato/documentation-generator-container/tree/v2.0.4"
             },
-            "time": "2021-04-25T14:46:27+00:00"
+            "time": "2021-09-23T07:28:03+00:00"
         },
         {
             "name": "apiato/welcome-container",

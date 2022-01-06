@@ -18,7 +18,7 @@ class WebLoginAction extends Action
         $sanitizedData = $request->sanitizeInput([
             'email',
             'password',
-            'remember_me' => true
+            'remember_me' => true,
         ]);
 
         $loginCustomAttribute = app(ExtractLoginCustomAttributeTask::class)->run($sanitizedData);
@@ -30,7 +30,6 @@ class WebLoginAction extends Action
             $sanitizedData['remember_me']
         );
 
-        $user = null;
         if ($isSuccessful) {
             $user = Auth::user();
         } else {
@@ -39,7 +38,7 @@ class WebLoginAction extends Action
 
         $isUserConfirmed = app(CheckIfUserEmailIsConfirmedTask::class)->run($user);
 
-        if (!$isUserConfirmed) {
+        if (! $isUserConfirmed) {
             throw new UserNotConfirmedException();
         }
 

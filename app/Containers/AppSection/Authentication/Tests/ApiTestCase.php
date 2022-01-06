@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ApiTestCase extends BaseTestCase
 {
+    protected const CLIENT_ID = 100;
+    protected const CLIENT_SECRET = 'XXp8x4QK7d3J9R7OVRXWrhc19XPRroHTTKIbY8XX';
+
     private bool $testingFilesCreated = false;
     private string $publicFilePath;
     private string $privateFilePath;
@@ -21,15 +24,12 @@ class ApiTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $clientId = '100';
-        $clientSecret = 'XXp8x4QK7d3J9R7OVRXWrhc19XPRroHTTKIbY8XX';
-
         // create password grand client
         DB::table('oauth_clients')->insert([
             [
-                'id' => $clientId,
-                'secret' => $clientSecret,
+                'id' => self::CLIENT_ID,
                 'name' => 'Testing',
+                'secret' => self::CLIENT_SECRET,
                 'redirect' => 'http://localhost',
                 'password_client' => '1',
                 'personal_access_client' => '0',
@@ -38,8 +38,8 @@ class ApiTestCase extends BaseTestCase
         ]);
 
         // make the clients credentials available as env variables
-        Config::set('appSection-authentication.clients.web.id', $clientId);
-        Config::set('appSection-authentication.clients.web.secret', $clientSecret);
+        Config::set('appSection-authentication.clients.web.id', self::CLIENT_ID);
+        Config::set('appSection-authentication.clients.web.secret', self::CLIENT_SECRET);
 
         // create testing oauth keys files
         $this->publicFilePath = $this->createTestingKey('oauth-public.key');

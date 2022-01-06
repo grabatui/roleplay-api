@@ -34,7 +34,7 @@
         "ext-pdo": "*",
         "ext-tokenizer": "*",
         "apiato/core": "^6.2.5",
-        "apiato/documentation-generator-container": "^1.0.0",
+        "apiato/documentation-generator-container": "^2.0",
         "apiato/welcome-container": "^1.0.0",
         "doctrine/dbal": "^3.1.2",
         "fideloper/proxy": "^4.4.1",
