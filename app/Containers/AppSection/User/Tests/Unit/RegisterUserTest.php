@@ -19,9 +19,9 @@ class RegisterUserTest extends TestCase
     public function testCreateUser(): void
     {
         $data = [
-            'email' => 'Mahmoud@test.test',
-            'password' => 'so-secret',
-            'name' => 'Mahmoud',
+            'email' => 'test@test.test',
+            'password' => 'newPassword',
+            'name' => 'Test Name',
         ];
 
         $request = new RegisterUserRequest($data);
