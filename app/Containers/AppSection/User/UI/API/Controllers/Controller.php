@@ -7,6 +7,7 @@ use App\Containers\AppSection\User\Actions\FindUserByIdAction;
 use App\Containers\AppSection\User\Actions\ForgotPasswordAction;
 use App\Containers\AppSection\User\Actions\GetAllUsersAction;
 use App\Containers\AppSection\User\Actions\GetAuthenticatedUserAction;
+use App\Containers\AppSection\User\Actions\GetUserSettingsAction;
 use App\Containers\AppSection\User\Actions\RegisterUserAction;
 use App\Containers\AppSection\User\Actions\ResetPasswordAction;
 use App\Containers\AppSection\User\Actions\UpdateUserAction;
@@ -15,10 +16,12 @@ use App\Containers\AppSection\User\UI\API\Requests\FindUserByIdRequest;
 use App\Containers\AppSection\User\UI\API\Requests\ForgotPasswordRequest;
 use App\Containers\AppSection\User\UI\API\Requests\GetAllUsersRequest;
 use App\Containers\AppSection\User\UI\API\Requests\GetAuthenticatedUserRequest;
+use App\Containers\AppSection\User\UI\API\Requests\GetUserSettingsRequest;
 use App\Containers\AppSection\User\UI\API\Requests\RegisterUserRequest;
 use App\Containers\AppSection\User\UI\API\Requests\ResetPasswordRequest;
 use App\Containers\AppSection\User\UI\API\Requests\UpdateUserRequest;
 use App\Containers\AppSection\User\UI\API\Transformers\UserPrivateProfileTransformer;
+use App\Containers\AppSection\User\UI\API\Transformers\UserSettingTransformer;
 use App\Containers\AppSection\User\UI\API\Transformers\UserTransformer;
 use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Http\JsonResponse;
@@ -71,5 +74,12 @@ class Controller extends ApiController
     {
         app(ForgotPasswordAction::class)->run($request);
         return $this->noContent(202);
+    }
+
+    public function getUserSettings(GetUserSettingsRequest $request): array
+    {
+        $userSettings = app(GetUserSettingsAction::class)->run($request);
+
+        return $this->transform($userSettings, UserSettingTransformer::class);
     }
 }

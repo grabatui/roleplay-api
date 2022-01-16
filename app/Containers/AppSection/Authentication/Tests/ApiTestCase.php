@@ -5,6 +5,7 @@ namespace App\Containers\AppSection\Authentication\Tests;
 use App\Containers\AppSection\Authentication\Tests\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * Class ApiTestCase.
@@ -70,5 +71,14 @@ class ApiTestCase extends BaseTestCase
             unlink($this->publicFilePath);
             unlink($this->privateFilePath);
         }
+    }
+
+    #[ArrayShape(['Accept' => "string", 'Authorization' => "string"])]
+    protected function getApiHeaders(string $accessToken): array
+    {
+        return [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $accessToken,
+        ];
     }
 }
