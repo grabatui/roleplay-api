@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Containers\AppSection\User\UI\API\Requests;
+namespace App\Containers\AppSection\User\UI\API\Requests\UserSettings;
 
 use App\Containers\AppSection\User\Traits\IsOwnerTrait;
 use App\Ship\Parents\Requests\Request;
-use JetBrains\PhpStorm\ArrayShape;
 
-/**
- * @property-read int $id
- */
 class GetUserSettingsRequest extends Request
 {
     use IsOwnerTrait;
@@ -18,20 +14,9 @@ class GetUserSettingsRequest extends Request
         'roles' => '',
     ];
 
-    protected array $decode = [
-        'id',
-    ];
-
-    protected array $urlParameters = [
-        'id',
-    ];
-
-    #[ArrayShape(['id' => "string"])]
     public function rules(): array
     {
-        return [
-            'id' => 'required|exists:users,id',
-        ];
+        return [];
     }
 
     public function authorize(): bool

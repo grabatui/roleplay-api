@@ -5,15 +5,13 @@ namespace App\Containers\AppSection\User\Tests\Unit;
 use App\Containers\AppSection\User\Enum\UserSettingCode;
 use App\Containers\AppSection\User\Tests\ApiTestCase;
 use Carbon\Carbon;
-use Config;
 use DB;
 use Hash;
 use Illuminate\Testing\TestResponse;
-use Vinkla\Hashids\Facades\Hashids;
 
 class ApiGetUserSettingsUnitTest extends ApiTestCase
 {
-    private string $accessToken;
+    private ?string $accessToken = null;
     private int $userId;
 
     public function setUp(): void
@@ -28,27 +26,14 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
         ]);
 
         $this->userId = (int) DB::getPdo()->lastInsertId();
-
-        $response = $this->post(
-            route('api_authentication_client_web_login_proxy'),
-            [
-                'email' => 'test@test.test',
-                'password' => 'testPassword',
-            ]
-        );
-
-        $this->accessToken = $response->decodeResponseJson()->offsetGet('access_token');
     }
 
     public function test_happyPath_withoutExists(): void
     {
-        $response = $this->get(
-            route('api_user_get_authenticated_user'),
-            $this->getApiHeaders($this->accessToken)
-        );
+        $this->authorize();
 
         $response = $this->get(
-            route('api_user_get_user_settings', $response->decodeResponseJson()->json('data.id')),
+            route('api_user_get_user_settings'),
             array_merge(
                 $this->getApiHeaders($this->accessToken),
                 ['Accept-Language' => 'en']
@@ -65,6 +50,8 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
 
     public function test_happyPath_withExists(): void
     {
+        $this->authorize();
+
         DB::table('user_settings')->insert([
             'user_id' => $this->userId,
             'code' => UserSettingCode::LANGUAGE,
@@ -72,12 +59,7 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
         ]);
 
         $response = $this->get(
-            route('api_user_get_authenticated_user'),
-            $this->getApiHeaders($this->accessToken)
-        );
-
-        $response = $this->get(
-            route('api_user_get_user_settings', $response->decodeResponseJson()->json('data.id')),
+            route('api_user_get_user_settings'),
             array_merge(
                 $this->getApiHeaders($this->accessToken),
                 ['Accept-Language' => 'en']
@@ -92,11 +74,11 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
         );
     }
 
-    public function test_wrongData(): void
+    public function test_wrongCredentials(): void
     {
-        // Without access token
+        // User is not authorized
         $response = $this->get(
-            route('api_user_get_user_settings', 1),
+            route('api_user_get_user_settings'),
             array_merge(
                 $this->getApiHeaders(''),
                 ['Accept-Language' => 'en']
@@ -108,32 +90,21 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
             'errors' => [],
         ]);
 
-        // Not encoded user id
+        $this->authorize();
+
+        // Without access token
         $response = $this->get(
-            route('api_user_get_user_settings', 1),
+            route('api_user_get_user_settings'),
             array_merge(
-                $this->getApiHeaders($this->accessToken),
+                $this->getApiHeaders(''),
                 ['Accept-Language' => 'en']
             )
         );
 
         $response->assertJsonFragment([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'id' => ['The id field is required.'],
-            ],
+            'message' => 'An Exception occurred when trying to authenticate the User.',
+            'errors' => [],
         ]);
-
-        // Wrong user id
-        $response = $this->get(
-            route('api_user_get_user_settings', Hashids::encode('wrongId')),
-            array_merge(
-                $this->getApiHeaders($this->accessToken),
-                ['Accept-Language' => 'en']
-            )
-        );
-
-        $response->assertStatus(404);
     }
 
     private function assertResponseUserSettings(array $expectValues, TestResponse $response): void
@@ -148,5 +119,18 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
         foreach ($expectValues as $code => $expectValue) {
             $this->assertEquals($expectValue, $responseValues[$code]);
         }
+    }
+
+    private function authorize(): void
+    {
+        $response = $this->post(
+            route('api_authentication_client_web_login_proxy'),
+            [
+                'email' => 'test@test.test',
+                'password' => 'testPassword',
+            ]
+        );
+
+        $this->accessToken = $response->decodeResponseJson()->offsetGet('access_token');
     }
 }
