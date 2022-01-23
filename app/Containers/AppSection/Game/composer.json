@@ -1,0 +1,7 @@
+{
+    "name": "apiato/game",
+    "description": "Game Container for apiato.",
+    "type": "apiato-container",
+    "require": {
+    }
+}
