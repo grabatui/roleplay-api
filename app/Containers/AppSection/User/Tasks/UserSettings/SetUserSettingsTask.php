@@ -9,12 +9,9 @@ use Illuminate\Support\Collection;
 
 class SetUserSettingsTask extends Task
 {
-    private UserSettingRepository $userSettingRepository;
-
     public function __construct(
-        UserSettingRepository $userSettingRepository
+        private UserSettingRepository $userSettingRepository
     ) {
-        $this->userSettingRepository = $userSettingRepository;
     }
 
     public function run(int $userId, Collection $userSettingsForSave): void
