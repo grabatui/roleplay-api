@@ -2,6 +2,7 @@
 
 namespace App\Containers\AppSection\Authorization\Data\Seeders;
 
+use App;
 use App\Containers\AppSection\Authorization\Tasks\CreatePermissionTask;
 use App\Containers\AppSection\Authorization\Tasks\GetAllPermissionsTask;
 use App\Ship\Parents\Seeders\Seeder;
@@ -12,7 +13,7 @@ class AuthorizationPermissionsSeeder_1 extends Seeder
     {
         $permissions = app(GetAllPermissionsTask::class)->run(true);
 
-        if ($permissions) {
+        if (! App::runningUnitTests() && $permissions && $permissions->isNotEmpty()) {
             return;
         }
 

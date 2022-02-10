@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\User\Actions\UserSettings;
 
-use App\Containers\AppSection\User\Tasks\Entity\UserSettingDto;
+use App\Containers\AppSection\User\Actions\Entity\UserSettingDto;
 use App\Containers\AppSection\User\Tasks\UserSettings\SetUserSettingsTask;
 use App\Containers\AppSection\User\UI\API\Requests\UserSettings\SetUserSettingsRequest;
 use App\Ship\Parents\Actions\Action;

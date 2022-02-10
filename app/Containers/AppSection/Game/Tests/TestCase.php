@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Containers\AppSection\User\Tests;
+namespace App\Containers\AppSection\Game\Tests;
 
-use App\Ship\Parents\Tests\PhpUnit\ApiTestCase as ShipApiTestCase;
+use App\Ship\Parents\Tests\PhpUnit\ApiTestCase as ShipTestCase;
 use JetBrains\PhpStorm\ArrayShape;
 
-/**
- * Class ApiTestCase.
- *
- * This is the container API TestCase class. Use this class to add your container specific API related helper functions.
- */
-abstract class ApiTestCase extends ShipApiTestCase
+abstract class TestCase extends ShipTestCase
 {
     #[ArrayShape([
         'Accept' => "string",

@@ -32,7 +32,7 @@ abstract class TestCase extends AbstractTestCase
      *
      * @return Application
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
         $this->baseUrl = env('API_FULL_URL'); // this reads the value from `phpunit.xml` during testing
 

@@ -4,6 +4,7 @@ namespace App\Containers\AppSection\Authorization\Tasks;
 
 use App\Containers\AppSection\Authorization\Data\Repositories\RoleRepository;
 use App\Containers\AppSection\Authorization\Models\Role;
+use App\Ship\Exceptions\NotFoundException;
 use App\Ship\Parents\Tasks\Task;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,9 @@ class FindRoleTask extends Task
 
     public function run($roleNameOrId): Role
     {
-        $query = (is_numeric($roleNameOrId) || Str::isUuid($roleNameOrId)) ? ['id' => $roleNameOrId] : ['name' => $roleNameOrId];
+        $query = is_numeric($roleNameOrId) || Str::isUuid($roleNameOrId)
+            ? ['id' => $roleNameOrId]
+            : ['name' => $roleNameOrId];
 
         return $this->repository->findWhere($query)->first();
     }

@@ -10,18 +10,6 @@ use Illuminate\Testing\TestResponse;
 
 class ApiLoginTest extends ApiTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        DB::table('users')->insert([
-            'email' => 'test@test.test',
-            'password' => Hash::make('testPassword'),
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
-    }
-
     public function test_happyPath(): void
     {
         $response = $this->authorizeWithCredentials('test@test.test', 'testPassword');

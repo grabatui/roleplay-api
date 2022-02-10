@@ -20,7 +20,7 @@ class FindUserByEmailTask extends Task
     public function run(string $email): User
     {
         try {
-            return $this->repository->findByField('email', $email)->first();
+            return $this->repository->findByField('email', $email)->firstOrThrow();
         } catch (Exception $e) {
             throw new NotFoundException();
         }

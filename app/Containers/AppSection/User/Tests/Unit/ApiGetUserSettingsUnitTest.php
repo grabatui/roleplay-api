@@ -11,23 +11,6 @@ use Illuminate\Testing\TestResponse;
 
 class ApiGetUserSettingsUnitTest extends ApiTestCase
 {
-    private ?string $accessToken = null;
-    private int $userId;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        DB::table('users')->insert([
-            'email' => 'test@test.test',
-            'password' => Hash::make('testPassword'),
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
-
-        $this->userId = (int) DB::getPdo()->lastInsertId();
-    }
-
     public function test_happyPath_withoutExists(): void
     {
         $this->authorize();
@@ -119,18 +102,5 @@ class ApiGetUserSettingsUnitTest extends ApiTestCase
         foreach ($expectValues as $code => $expectValue) {
             $this->assertEquals($expectValue, $responseValues[$code]);
         }
-    }
-
-    private function authorize(): void
-    {
-        $response = $this->post(
-            route('api_authentication_client_web_login_proxy'),
-            [
-                'email' => 'test@test.test',
-                'password' => 'testPassword',
-            ]
-        );
-
-        $this->accessToken = $response->decodeResponseJson()->offsetGet('access_token');
     }
 }

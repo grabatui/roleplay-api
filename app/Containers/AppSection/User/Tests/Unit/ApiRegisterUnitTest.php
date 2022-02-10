@@ -8,28 +8,17 @@ use DB;
 
 class ApiRegisterUnitTest extends ApiTestCase
 {
-    private string $accessToken;
-
     public function setUp(): void
     {
         parent::setUp();
 
-        $response = $this->post(
-            route('passport.token'),
-            [
-                'client_id' => Config::get('appSection-authentication.clients.web.id'),
-                'client_secret' => Config::get('appSection-authentication.clients.web.secret'),
-                'grant_type' => 'client_credentials',
-            ]
-        );
-
-        $this->accessToken = $response->decodeResponseJson()->offsetGet('access_token');
+        $this->authorize();
     }
 
     public function test_happyPath(): void
     {
         $data = [
-            'email' => 'test@test.test',
+            'email' => 'test2@test.test',
             'password' => 'newPassword',
             'name' => 'Test Name',
         ];

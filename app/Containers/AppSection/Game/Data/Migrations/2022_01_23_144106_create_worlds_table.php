@@ -1,6 +1,6 @@
 <?php
 
-use App\Containers\AppSection\Game\Enum\WorldStatusEnum;
+use App\Containers\AppSection\Game\Enum\UserWorldStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -22,7 +22,7 @@ class CreateWorldsTable extends Migration
             $table->id();
             $table->string('world_code', 255);
             $table->unsignedBigInteger('author_id');
-            $table->enum('status', WorldStatusEnum::ALL)->default(WorldStatusEnum::NEW);
+            $table->enum('status', UserWorldStatusEnum::ALL)->default(UserWorldStatusEnum::NEW);
             $table->json('form_settings')->nullable();
 
             $table->foreign('world_code')->references('code')->on('worlds');

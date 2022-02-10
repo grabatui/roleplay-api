@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Containers\AppSection\User\Tasks\Entity;
+namespace App\Containers\AppSection\User\Actions\Entity;
 
 class UserSettingDto
 {
-    private string $code;
-    private mixed $value;
-
     public function __construct(
-        string $code,
-        mixed $value
+        private string $code,
+        private mixed $value
     ) {
-        $this->code = $code;
-        $this->value = $value;
     }
 
     public function getCode(): string

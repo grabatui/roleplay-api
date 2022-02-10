@@ -18,6 +18,7 @@ class World extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'code' => 'string',
         'form_settings' => 'json',
     ];
 }

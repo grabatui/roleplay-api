@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Containers\AppSection\Game\Tasks;
+namespace App\Containers\AppSection\Game\Tasks\World;
 
 use App\Containers\AppSection\Game\Data\Repositories\WorldRepository;
 use App\Ship\Exceptions\CreateResourceFailedException;
@@ -9,12 +9,9 @@ use Throwable;
 
 class CreateWorldTask extends Task
 {
-    private WorldRepository $worldRepository;
-
     public function __construct(
-        WorldRepository $worldRepository
+        private WorldRepository $worldRepository
     ) {
-        $this->worldRepository = $worldRepository;
     }
 
     public function run(string $code, array $formSettings): void

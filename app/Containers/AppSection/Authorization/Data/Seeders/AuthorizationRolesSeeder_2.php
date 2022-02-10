@@ -2,6 +2,7 @@
 
 namespace App\Containers\AppSection\Authorization\Data\Seeders;
 
+use App;
 use App\Containers\AppSection\Authorization\Tasks\CreateRoleTask;
 use App\Containers\AppSection\Authorization\Tasks\GetAllRolesTask;
 use App\Ship\Parents\Seeders\Seeder;
@@ -12,7 +13,7 @@ class AuthorizationRolesSeeder_2 extends Seeder
     {
         $allRoles = app(GetAllRolesTask::class)->run(true);
 
-        if ($allRoles) {
+        if (! App::runningUnitTests() && $allRoles && $allRoles->isNotEmpty()) {
             return;
         }
 

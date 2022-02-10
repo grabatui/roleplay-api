@@ -2,8 +2,8 @@
 
 namespace App\Containers\AppSection\User\Tasks\UserSettings;
 
+use App\Containers\AppSection\User\Actions\Entity\UserSettingDto;
 use App\Containers\AppSection\User\Data\Repositories\UserSettingRepository;
-use App\Containers\AppSection\User\Tasks\Entity\UserSettingDto;
 use App\Ship\Parents\Tasks\Task;
 use Illuminate\Support\Collection;
 
