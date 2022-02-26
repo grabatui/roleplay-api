@@ -3,7 +3,6 @@
 namespace App\Containers\AppSection\Authentication\Tests;
 
 use App\Ship\Parents\Tests\PhpUnit\ApiTestCase as ShipApiTestCase;
-use DB;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -13,23 +12,6 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class ApiTestCase extends ShipApiTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        DB::table('oauth_clients')->insert([
-            [
-                'id' => self::CLIENT_ID,
-                'name' => 'Testing',
-                'secret' => self::CLIENT_SECRET,
-                'redirect' => 'http://localhost',
-                'password_client' => '1',
-                'personal_access_client' => '0',
-                'revoked' => '0',
-            ],
-        ]);
-    }
-
     #[ArrayShape([
         'Accept' => "string",
         'Authorization' => "string",

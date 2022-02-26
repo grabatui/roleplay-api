@@ -11,13 +11,6 @@ class CreateWorldsTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('worlds', function (Blueprint $table): void {
-            $table->string('code', 255)->primary()->unique();
-            $table->json('form_settings')->nullable();
-
-            $table->timestamps();
-        });
-
         Schema::create('user_worlds', function (Blueprint $table): void {
             $table->id();
             $table->string('world_code', 255);
@@ -25,7 +18,6 @@ class CreateWorldsTable extends Migration
             $table->enum('status', UserWorldStatusEnum::ALL)->default(UserWorldStatusEnum::NEW);
             $table->json('form_settings')->nullable();
 
-            $table->foreign('world_code')->references('code')->on('worlds');
             $table->foreign('author_id')->references('id')->on('users');
 
             $table->timestamps();
@@ -38,6 +30,5 @@ class CreateWorldsTable extends Migration
     public function down(): void
     {
         Schema::dropIfExists('user_worlds');
-        Schema::dropIfExists('worlds');
     }
 }

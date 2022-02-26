@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Containers\AppSection\Game\UI\API\Requests;
+namespace App\Containers\AppSection\Game\UI\API\Requests\World;
 
 use App\Containers\AppSection\User\Traits\IsOwnerTrait;
 use App\Ship\Parents\Requests\Request;

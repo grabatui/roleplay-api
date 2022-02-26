@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property array $form_settings
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property-read World $world
  * @property-read User $author
  */
 class UserWorld extends Model
@@ -25,11 +24,6 @@ class UserWorld extends Model
     protected $casts = [
         'form_settings' => 'json',
     ];
-
-    public function world(): BelongsTo
-    {
-        return $this->belongsTo(World::class, 'world_code', 'code');
-    }
 
     public function author(): BelongsTo
     {

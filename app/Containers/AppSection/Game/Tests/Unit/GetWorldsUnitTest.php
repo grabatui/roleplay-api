@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\Game\Tests\Unit;
 
-use App\Containers\AppSection\Game\Enum\WorldFormSettingCodeEnum;
+use App\Containers\AppSection\Game\Actions\Entity\World\DndWorldAdapter;
 use App\Containers\AppSection\Game\Enum\UserWorldStatusEnum;
 use App\Containers\AppSection\Game\Tests\TestCase;
 use Carbon\Carbon;
@@ -37,8 +37,8 @@ class GetWorldsUnitTest extends TestCase
     public function test_happyPath_withExists(): void
     {
         $newUserWorldFormSettings = [
-            WorldFormSettingCodeEnum::TITLE => 'New world',
-            WorldFormSettingCodeEnum::MAX_PLAYERS_COUNT => 3,
+            DndWorldAdapter::TITLE => 'New world',
+            DndWorldAdapter::MAX_PLAYERS_COUNT => 3,
         ];
         $newUserWorld = [
             'world_code' => 'dnd',
@@ -50,8 +50,8 @@ class GetWorldsUnitTest extends TestCase
         ];
 
         $inProgressUserWorldFormSettings = [
-            WorldFormSettingCodeEnum::TITLE => 'World in progress',
-            WorldFormSettingCodeEnum::MAX_PLAYERS_COUNT => 2,
+            DndWorldAdapter::TITLE => 'World in progress',
+            DndWorldAdapter::MAX_PLAYERS_COUNT => 2,
         ];
         $inProgressUserWorld = [
             'world_code' => 'dnd',
@@ -63,8 +63,8 @@ class GetWorldsUnitTest extends TestCase
         ];
 
         $deletedUserWorldFormSettings = [
-            WorldFormSettingCodeEnum::TITLE => 'Deleted world',
-            WorldFormSettingCodeEnum::MAX_PLAYERS_COUNT => 4,
+            DndWorldAdapter::TITLE => 'Deleted world',
+            DndWorldAdapter::MAX_PLAYERS_COUNT => 4,
         ];
         $deletedUserWorld = [
             'world_code' => 'dnd',
@@ -168,7 +168,10 @@ class GetWorldsUnitTest extends TestCase
 
         sort($formSettingsCodes);
 
-        $expectedFormSettings = WorldFormSettingCodeEnum::ALL_DND;
+        $expectedFormSettings = array_keys(
+            (new DndWorldAdapter())->getSettings()
+        );
+
         sort($expectedFormSettings);
 
         $this->assertEquals(

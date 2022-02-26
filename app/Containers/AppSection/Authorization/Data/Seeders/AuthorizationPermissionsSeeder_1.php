@@ -6,14 +6,19 @@ use App;
 use App\Containers\AppSection\Authorization\Tasks\CreatePermissionTask;
 use App\Containers\AppSection\Authorization\Tasks\GetAllPermissionsTask;
 use App\Ship\Parents\Seeders\Seeder;
+use Spatie\Permission\Models\Permission;
 
 class AuthorizationPermissionsSeeder_1 extends Seeder
 {
     public function run(): void
     {
-        $permissions = app(GetAllPermissionsTask::class)->run(true);
+        $allPermissions = app(GetAllPermissionsTask::class)->run(true);
 
-        if (! App::runningUnitTests() && $permissions && $permissions->isNotEmpty()) {
+        $manageRolesPermission = $allPermissions?->first(
+            static fn(Permission $permission): bool => $permission->name === 'manage-roles',
+        );
+
+        if (! App::runningUnitTests() && $manageRolesPermission) {
             return;
         }
 

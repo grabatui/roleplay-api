@@ -24,8 +24,7 @@ class CreateUserByCredentialsTask extends Task
         string $name = null,
         string $gender = null,
         string $birth = null
-    ): User
-    {
+    ): User {
         try {
             // create new user
             $user = $this->repository->create([
@@ -35,8 +34,7 @@ class CreateUserByCredentialsTask extends Task
                 'gender' => $gender,
                 'birth' => $birth,
             ]);
-
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new CreateResourceFailedException();
         }
 

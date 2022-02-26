@@ -4,25 +4,10 @@ namespace App\Ship\Exceptions\Handlers;
 
 use Apiato\Core\Exceptions\Handlers\ExceptionsHandler as CoreExceptionsHandler;
 use App\Ship\Parents\Exceptions\Exception as ParentException;
-use Throwable;
 
-/**
- * Class ExceptionsHandler
- *
- * A.K.A (app/Exceptions/Handler.php)
- *
- * @author  Mahmoud Zalt  <mahmoud@zalt.me>
- */
 class ExceptionsHandler extends CoreExceptionsHandler
 {
-    /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array
-     */
-    protected $dontReport = [
-        //
-    ];
+    protected $dontReport = [];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -42,12 +27,7 @@ class ExceptionsHandler extends CoreExceptionsHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-        });
-
         $this->renderable(function (ParentException $e) {
-            $response = null;
-
             if (config('app.debug')) {
                 $response = [
                     'message' => $e->getMessage(),

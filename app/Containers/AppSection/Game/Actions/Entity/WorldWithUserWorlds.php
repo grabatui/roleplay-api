@@ -3,8 +3,7 @@
 namespace App\Containers\AppSection\Game\Actions\Entity;
 
 use Apiato\Core\Traits\HasResourceKeyTrait;
-use App\Containers\AppSection\Game\Models\UserWorld;
-use App\Containers\AppSection\Game\Models\World;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterInterface;
 use Illuminate\Support\Collection;
 
 class WorldWithUserWorlds
@@ -12,16 +11,18 @@ class WorldWithUserWorlds
     use HasResourceKeyTrait;
 
     /**
-     * @param Collection|UserWorld[] $userWorlds
+     * @param WorldAdapterInterface $world
+     * @param int $userId
+     * @param Collection $userWorlds
      */
     public function __construct(
-        private World $world,
+        private WorldAdapterInterface $world,
         private int $userId,
         private Collection $userWorlds
     ) {
     }
 
-    public function getWorld(): World
+    public function getWorld(): WorldAdapterInterface
     {
         return $this->world;
     }

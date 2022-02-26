@@ -6,6 +6,7 @@ use App;
 use App\Containers\AppSection\Authorization\Tasks\CreatePermissionTask;
 use App\Containers\AppSection\Authorization\Tasks\GetAllPermissionsTask;
 use App\Ship\Parents\Seeders\Seeder;
+use Spatie\Permission\Models\Permission;
 
 class UserPermissionsSeeder_1 extends Seeder
 {
@@ -13,7 +14,11 @@ class UserPermissionsSeeder_1 extends Seeder
     {
         $allPermissions = app(GetAllPermissionsTask::class)->run(true);
 
-        if (! App::runningUnitTests() && $allPermissions && $allPermissions->isNotEmpty()) {
+        $searchUsersPermission = $allPermissions?->first(
+            static fn(Permission $permission): bool => $permission->name === 'search-users',
+        );
+
+        if (! App::runningUnitTests() && $searchUsersPermission) {
             return;
         }
 

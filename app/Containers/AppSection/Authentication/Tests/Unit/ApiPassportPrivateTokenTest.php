@@ -10,33 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class ApiPassportPrivateTokenTest extends ApiTestCase
 {
-    protected const CLIENT_ID = 200;
-
     private string $username = 'test@test.test';
-    private string $password = 'strongTestPassword';
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        DB::table('oauth_clients')->insert([
-            [
-                'id' => self::CLIENT_ID,
-                'secret' => self::CLIENT_SECRET,
-                'name' => 'Testing',
-                'redirect' => 'http://localhost',
-                'password_client' => '1',
-                'personal_access_client' => '0',
-                'revoked' => '0',
-                'provider' => 'users',
-            ],
-        ]);
-
-        UserFactory::new()->create([
-            'email' => $this->username,
-            'password' => Hash::make($this->password),
-        ])->save();
-    }
+    private string $password = 'testPassword';
 
     public function test_happyPath(): void
     {

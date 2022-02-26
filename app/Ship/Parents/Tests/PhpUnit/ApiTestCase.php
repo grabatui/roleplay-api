@@ -2,7 +2,7 @@
 
 namespace App\Ship\Parents\Tests\PhpUnit;
 
-use Carbon\Carbon;
+use App\Containers\AppSection\User\Data\Factories\UserFactory;
 use DB;
 use Hash;
 use Illuminate\Support\Facades\Config;
@@ -41,15 +41,14 @@ abstract class ApiTestCase extends TestCase
                 'password_client' => '1',
                 'personal_access_client' => '0',
                 'revoked' => '0',
+                'provider' => 'users',
             ],
         ]);
 
-        DB::table('users')->insert([
+        UserFactory::new()->create([
             'email' => 'test@test.test',
             'password' => Hash::make('testPassword'),
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        ]);
+        ])->save();
 
         $this->userId = (int) DB::getPdo()->lastInsertId();
     }

@@ -2,8 +2,8 @@
 
 namespace App\Containers\AppSection\Game\Tasks\World;
 
-use App\Containers\AppSection\Game\Data\Repositories\WorldRepository;
-use App\Containers\AppSection\Game\Models\World;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterFactory;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterInterface;
 use App\Ship\Exceptions\NotFoundException;
 use App\Ship\Parents\Tasks\Task;
 use Throwable;
@@ -11,14 +11,14 @@ use Throwable;
 class FindWorldByCodeTask extends Task
 {
     public function __construct(
-        private WorldRepository $worldRepository
+        private WorldAdapterFactory $worldAdapterFactory
     ) {
     }
 
-    public function run(string $code): World
+    public function run(string $code): WorldAdapterInterface
     {
         try {
-            return $this->worldRepository->findByField('code', $code)->first();
+            return $this->worldAdapterFactory->getByCode($code);
         } catch (Throwable) {
             throw new NotFoundException();
         }

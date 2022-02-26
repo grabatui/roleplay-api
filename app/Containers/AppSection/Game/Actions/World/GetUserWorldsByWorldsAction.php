@@ -2,8 +2,8 @@
 
 namespace App\Containers\AppSection\Game\Actions\World;
 
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterInterface;
 use App\Containers\AppSection\Game\Actions\Entity\WorldWithUserWorlds;
-use App\Containers\AppSection\Game\Models\World;
 use App\Containers\AppSection\Game\Tasks\UserWorld\GetAllUserWorldsTask;
 use App\Containers\AppSection\Game\Tasks\World\GetAllWorldsTask;
 use App\Ship\Parents\Actions\Action;
@@ -19,10 +19,10 @@ class GetUserWorldsByWorldsAction extends Action
         $userWorldsByWorldCode = app(GetAllUserWorldsTask::class)->run($userId)->groupBy('world_code');
 
         return $allWorlds->map(
-            static fn(World $world): WorldWithUserWorlds => new WorldWithUserWorlds(
+            static fn(WorldAdapterInterface $world): WorldWithUserWorlds => new WorldWithUserWorlds(
                 $world,
                 $userId,
-                $userWorldsByWorldCode->get($world->code) ?: collect()
+                $userWorldsByWorldCode->get($world::getCode()) ?: collect()
             )
         );
     }
