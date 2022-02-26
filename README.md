@@ -5,8 +5,8 @@ Authored by Anatoliy Bibanaev
 ## Roadmap
 - [x] Get User settings
 - [x] Save User settings
-- [ ] Get Worlds
-- [ ] Get World form fields
+- [x] Get Worlds
+- [x] Get World form fields
 - [ ] Get World Game
 - [ ] Put World Game
 - [ ] Patch World Game
