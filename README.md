@@ -8,7 +8,7 @@ Authored by Anatoliy Bibanaev
 - [x] Get Worlds
 - [x] Get World form fields
 - [ ] Get World Game
-- [ ] Put World Game
+- [x] Put World Game
 - [ ] Patch World Game
 - [ ] Get World Character form fields
 - [ ] Get World Characters
