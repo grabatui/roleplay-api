@@ -7,6 +7,7 @@ use App\Containers\AppSection\Authorization\Traits\AuthorizationTrait;
 use App\Ship\Parents\Models\UserModel;
 
 /**
+ * @property int $id
  * @property string $name
  */
 class User extends UserModel

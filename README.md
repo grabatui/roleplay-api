@@ -7,7 +7,7 @@ Authored by Anatoliy Bibanaev
 - [x] Save User settings
 - [x] Get Worlds
 - [x] Get World form fields
-- [ ] Get World Game
+- [x] Get World Game
 - [x] Put World Game
 - [ ] Patch World Game
 - [ ] Get World Character form fields
