@@ -3,10 +3,10 @@
 namespace App\Containers\AppSection\Game\Tasks\UserWorld;
 
 use App\Containers\AppSection\Game\Data\Repositories\UserWorldRepository;
-use App\Ship\Parents\Tasks\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-class GetAllUserWorldsTask extends Task
+class GetAllUserWorldsWhereAsPlayerTask
 {
     public function __construct(
         private UserWorldRepository $userWorldRepository
@@ -15,7 +15,10 @@ class GetAllUserWorldsTask extends Task
     public function run(int $userId): Collection
     {
         return $this->userWorldRepository
-            ->findByField('author_id', $userId)
+            ->whereHas(
+                'players',
+                static fn(Builder $builder) => $builder->where('player_id', $userId)
+            )
             ->load(['author', 'players']);
     }
 }

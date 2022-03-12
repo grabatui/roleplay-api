@@ -8,7 +8,7 @@ use App\Containers\AppSection\Game\Models\UserWorld;
 use App\Containers\AppSection\Game\Tests\TestCase;
 use App\Containers\AppSection\User\Data\Factories\UserFactory;
 use App\Containers\AppSection\User\Models\User;
-use Hash;
+use DB;
 
 class GetUserWorldUnitTest extends TestCase
 {
@@ -28,7 +28,47 @@ class GetUserWorldUnitTest extends TestCase
 
         $response->assertJsonPath('data.id', $authorizedUserWorld->id);
         $response->assertJsonPath('data.status', $authorizedUserWorld->status);
-        $response->assertJsonPath('data.author_id', $authorizedUserWorld->author->getHashedKey());
+        $response->assertJsonPath('data.author.id', $authorizedUserWorld->author->getHashedKey());
+    }
+
+    public function test_happyPath_withPlayers(): void
+    {
+        $this->authorize();
+
+        /** @var User $player1 */
+        $player1 = UserFactory::new()->create();
+        $player1->save();
+
+        /** @var User $player2 */
+        $player2 = UserFactory::new()->create();
+        $player2->save();
+
+        $authorizedUserWorld = $this->createUserWorld($this->userId);
+
+        DB::table('user_world_players')->insert([
+            [
+                'user_world_id' => $authorizedUserWorld->id,
+                'user_id' => $player1->id,
+            ],
+            [
+                'user_world_id' => $authorizedUserWorld->id,
+                'user_id' => $player2->id,
+            ],
+        ]);
+
+        $response = $this->get(
+            route('api_user_get_user_world', ['userWorld' => $authorizedUserWorld->id]),
+            array_merge(
+                $this->getApiHeaders($this->accessToken),
+                ['Accept-Language' => 'en']
+            )
+        );
+
+        $response->assertJsonPath('data.id', $authorizedUserWorld->id);
+        $response->assertJsonPath('data.status', $authorizedUserWorld->status);
+        $response->assertJsonPath('data.author.id', $authorizedUserWorld->author->getHashedKey());
+
+        $response->assertJsonCount(2, 'data.players');
     }
 
     public function test_notAuthorizedUserWorld(): void
@@ -36,10 +76,7 @@ class GetUserWorldUnitTest extends TestCase
         $this->authorize();
 
         /** @var User $user */
-        $user = UserFactory::new()->create([
-            'email' => 'test2@test.test',
-            'password' => Hash::make('testPassword'),
-        ]);
+        $user = UserFactory::new()->create();
 
         $user->save();
 

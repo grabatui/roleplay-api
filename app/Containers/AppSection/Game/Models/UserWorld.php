@@ -6,6 +6,8 @@ use App\Containers\AppSection\User\Models\User;
 use App\Ship\Parents\Models\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read User $author
+ * @property-read Collection $players
  */
 class UserWorld extends Model
 {
@@ -28,5 +31,13 @@ class UserWorld extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function players(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            (new UserWorldPlayer())->getTable()
+        );
     }
 }

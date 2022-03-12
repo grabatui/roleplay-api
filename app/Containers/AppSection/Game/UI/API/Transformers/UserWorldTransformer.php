@@ -3,6 +3,7 @@
 namespace App\Containers\AppSection\Game\UI\API\Transformers;
 
 use App\Containers\AppSection\Game\Models\UserWorld;
+use App\Containers\AppSection\User\Models\User;
 use App\Ship\Parents\Transformers\Transformer;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -12,10 +13,10 @@ class UserWorldTransformer extends Transformer
         'id' => "int",
         'status' => "string",
         'form_settings' => "array",
-        'created_at' => "object",
+        'created_at' => "string",
         'readable_created_at' => "string",
-        'author_id' => "mixed",
-        'author_name' => "string"
+        'author' => "array",
+        'players' => "array"
     ])]
     public function transform(UserWorld $userWorld): array
     {
@@ -25,9 +26,16 @@ class UserWorldTransformer extends Transformer
             'form_settings' => $userWorld->form_settings,
             'created_at' => $userWorld->created_at,
             'readable_created_at' => $userWorld->created_at->diffForHumans(),
-            'author_id' => $userWorld->author->getHashedKey(),
-            'author_name' => $userWorld->author->name,
-            // TODO: Number of players
+            'author' => [
+                'id' => $userWorld->author->getHashedKey(),
+                'name' => $userWorld->author->name,
+            ],
+            'players' => $userWorld->players->map(
+                static fn(User $player): array => [
+                    'id' => $player->getHashedKey(),
+                    'name' => $player->name,
+                ],
+            ),
         ];
     }
 }
