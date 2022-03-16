@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Containers\AppSection\Game\Tasks\UserWorld;
+namespace App\Containers\AppSection\Game\Tasks\Game;
 
-use App\Containers\AppSection\Game\Data\Repositories\UserWorldRepository;
+use App\Containers\AppSection\Game\Data\Repositories\GameRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-class GetAllUserWorldsWhereAsPlayerTask
+class GetAllGamesWhereAsPlayerTask
 {
     public function __construct(
-        private UserWorldRepository $userWorldRepository
+        private GameRepository $gameRepository
     ) {}
 
     public function run(int $userId): Collection
     {
-        return $this->userWorldRepository
+        return $this->gameRepository
             ->whereHas(
                 'players',
                 static fn(Builder $builder) => $builder->where('player_id', $userId)
             )
-            ->load(['author', 'players']);
+            ->with(['author', 'players'])
+            ->get();
     }
 }

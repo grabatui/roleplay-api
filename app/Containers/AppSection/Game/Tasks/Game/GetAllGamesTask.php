@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Containers\AppSection\Game\Tasks\UserWorld;
+namespace App\Containers\AppSection\Game\Tasks\Game;
 
-use App\Containers\AppSection\Game\Data\Repositories\UserWorldRepository;
+use App\Containers\AppSection\Game\Data\Repositories\GameRepository;
 use App\Ship\Parents\Tasks\Task;
 use Illuminate\Support\Collection;
 
-class GetAllUserWorldsTask extends Task
+class GetAllGamesTask extends Task
 {
     public function __construct(
-        private UserWorldRepository $userWorldRepository
+        private GameRepository $gameRepository
     ) {}
 
     public function run(int $userId): Collection
     {
-        return $this->userWorldRepository
+        return $this->gameRepository
             ->findByField('author_id', $userId)
             ->load(['author', 'players']);
     }

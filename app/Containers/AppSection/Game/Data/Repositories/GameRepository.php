@@ -2,10 +2,10 @@
 
 namespace App\Containers\AppSection\Game\Data\Repositories;
 
-use App\Containers\AppSection\Game\Models\UserWorld;
+use App\Containers\AppSection\Game\Models\Game;
 use App\Ship\Parents\Repositories\Repository;
 
-class UserWorldRepository extends Repository
+class GameRepository extends Repository
 {
     protected $fieldSearchable = [
         'world_code' => '=',
@@ -14,6 +14,6 @@ class UserWorldRepository extends Repository
 
     public function model(): string
     {
-        return UserWorld::class;
+        return Game::class;
     }
 }

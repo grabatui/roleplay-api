@@ -2,8 +2,8 @@
 
 /**
  * @apiGroup           Game
- * @apiName            getUserWorld
- * @api                {get} /v1/user/worlds/:userWorld Get authorized user world by id
+ * @apiName            getGames
+ * @api                {get} /v1/user/games Get authorized games
  *
  * @apiVersion         1.0.0
  * @apiPermission      Authenticated User
@@ -14,6 +14,6 @@
 use App\Containers\AppSection\Game\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::get('user/worlds/{userWorld}', [Controller::class, 'getUserWorld'])
-    ->name('api_user_get_user_world')
+Route::get('user/games', [Controller::class, 'getGames'])
+    ->name('api_user_get_games')
     ->middleware(['auth:api']);

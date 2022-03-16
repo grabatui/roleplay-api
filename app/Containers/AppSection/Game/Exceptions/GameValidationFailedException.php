@@ -2,16 +2,15 @@
 
 namespace App\Containers\AppSection\Game\Exceptions;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
-use App\Containers\AppSection\Game\Enum\UserWorldValidationTypeEnum;
+use App\Containers\AppSection\Game\Enum\GameValidationTypeEnum;
 use App\Ship\Exceptions\ValidationFailedException;
 use Exception as BaseException;
 
-class UserWorldValidationFailedException extends ValidationFailedException
+class GameValidationFailedException extends ValidationFailedException
 {
     public function __construct(
         private string $settingCode,
-        private UserWorldValidationTypeEnum $type,
+        private GameValidationTypeEnum $type,
         ?string $message = null,
         ?int $code = null,
         ?BaseException $previous = null
@@ -26,7 +25,7 @@ class UserWorldValidationFailedException extends ValidationFailedException
 
     public function getTranslatedError(): string
     {
-        return __('appSection@game::error.user_world_validation.' . $this->type->name, [
+        return __('appSection@game::error.game_validation.' . $this->type->name, [
             'code' => $this->settingCode,
         ]);
     }

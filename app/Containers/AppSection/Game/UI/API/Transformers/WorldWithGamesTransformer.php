@@ -3,22 +3,22 @@
 namespace App\Containers\AppSection\Game\UI\API\Transformers;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
-use App\Containers\AppSection\Game\Actions\Entity\WorldWithUserWorlds;
-use App\Containers\AppSection\Game\Models\UserWorld;
+use App\Containers\AppSection\Game\Actions\Entity\WorldWithGames;
+use App\Containers\AppSection\Game\Models\Game;
 use App\Ship\Parents\Transformers\Transformer;
 use JetBrains\PhpStorm\ArrayShape;
 
-class WorldWithUserWorldsTransformer extends Transformer
+class WorldWithGamesTransformer extends Transformer
 {
     #[ArrayShape([
         'code' => "string",
         'title' => "mixed",
         'form_settings' => "array",
-        'user_worlds' => "array[]"
+        'games' => "array[]"
     ])]
-    public function transform(WorldWithUserWorlds $worldWithUserWorlds): array
+    public function transform(WorldWithGames $worldWithGames): array
     {
-        $world = $worldWithUserWorlds->getWorld();
+        $world = $worldWithGames->getWorld();
 
         return [
             'code' => $world::getCode(),
@@ -27,8 +27,8 @@ class WorldWithUserWorldsTransformer extends Transformer
                 fn(Setting $formSetting): array => $this->transformFormSetting($world::getCode(), $formSetting),
                 $world->getSettings()
             ),
-            'user_worlds' => $worldWithUserWorlds->getUserWorlds()->map(
-                fn(UserWorld $userWorld): array => app(UserWorldTransformer::class)->transform($userWorld)
+            'games' => $worldWithGames->getGames()->map(
+                fn(Game $game): array => app(GameTransformer::class)->transform($game)
             ),
         ];
     }

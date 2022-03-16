@@ -3,13 +3,13 @@
 namespace App\Containers\AppSection\Game\UI\API\Requests\World;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterFactory;
-use App\Containers\AppSection\Game\Rules\UserWorldSettingRule;
-use App\Containers\AppSection\Game\Rules\UserWorldSettingsRule;
+use App\Containers\AppSection\Game\Rules\GameSettingRule;
+use App\Containers\AppSection\Game\Rules\GameSettingsRule;
 use App\Ship\Parents\Requests\Request;
 use Illuminate\Validation\Rule;
 use JetBrains\PhpStorm\ArrayShape;
 
-class AddUserWorldRequest extends Request
+class AddGameRequest extends Request
 {
     protected array $access = [
         'roles' => '',
@@ -45,11 +45,11 @@ class AddUserWorldRequest extends Request
             'data' => $isHasRequiredSettings
                 ? [
                     'required',
-                    new UserWorldSettingsRule($adapter)
+                    new GameSettingsRule($adapter)
                 ]
                 : [],
             'data.*' => [
-                new UserWorldSettingRule($adapter),
+                new GameSettingRule($adapter),
             ],
             'data.*.code' => [
                 'required',

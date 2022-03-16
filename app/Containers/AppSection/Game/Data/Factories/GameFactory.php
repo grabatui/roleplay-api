@@ -3,14 +3,14 @@
 namespace App\Containers\AppSection\Game\Data\Factories;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\DndWorldAdapter;
-use App\Containers\AppSection\Game\Enum\UserWorldStatusEnum;
-use App\Containers\AppSection\Game\Models\UserWorld;
+use App\Containers\AppSection\Game\Enum\GameStatusEnum;
+use App\Containers\AppSection\Game\Models\Game;
 use App\Ship\Parents\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
-class UserWorldFactory extends Factory
+class GameFactory extends Factory
 {
-    protected $model = UserWorld::class;
+    protected $model = Game::class;
 
     #[ArrayShape([
         'status' => "string",
@@ -20,7 +20,7 @@ class UserWorldFactory extends Factory
     public function definition(): array
     {
         return [
-            'status' => UserWorldStatusEnum::NEW,
+            'status' => GameStatusEnum::NEW,
             'created_at' => now(),
             'updated_at' => now(),
         ];

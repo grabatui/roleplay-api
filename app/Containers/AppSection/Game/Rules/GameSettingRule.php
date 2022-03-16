@@ -3,10 +3,10 @@
 namespace App\Containers\AppSection\Game\Rules;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterInterface;
-use App\Containers\AppSection\Game\Exceptions\UserWorldValidationFailedException;
+use App\Containers\AppSection\Game\Exceptions\GameValidationFailedException;
 use Illuminate\Contracts\Validation\Rule;
 
-class UserWorldSettingRule implements Rule
+class GameSettingRule implements Rule
 {
     private string $errorMessage;
     private ?string $notExistsSetting = null;
@@ -14,7 +14,7 @@ class UserWorldSettingRule implements Rule
     public function __construct(
         private ?WorldAdapterInterface $worldAdapter
     ) {
-        $this->errorMessage =  __('appSection@game::error.user_world_validation.unknown');
+        $this->errorMessage =  __('appSection@game::error.game_validation.unknown');
     }
 
     /**
@@ -46,7 +46,7 @@ class UserWorldSettingRule implements Rule
 
         try {
             $this->worldAdapter->validateSetting($setting, $value['value'] ?? null);
-        } catch (UserWorldValidationFailedException $exception) {
+        } catch (GameValidationFailedException $exception) {
             $this->errorMessage = $exception->getTranslatedError();
 
             return false;
@@ -58,7 +58,7 @@ class UserWorldSettingRule implements Rule
     public function message(): string
     {
         return $this->notExistsSetting
-            ? __('appSection@game::error.user_world_validation.not_exists', [
+            ? __('appSection@game::error.game_validation.not_exists', [
                 'code' => $this->notExistsSetting,
             ])
             : $this->errorMessage;

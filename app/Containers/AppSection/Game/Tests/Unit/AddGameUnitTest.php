@@ -3,17 +3,17 @@
 namespace App\Containers\AppSection\Game\Tests\Unit;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\DndWorldAdapter;
-use App\Containers\AppSection\Game\Enum\UserWorldStatusEnum;
+use App\Containers\AppSection\Game\Enum\GameStatusEnum;
 use App\Containers\AppSection\Game\Tests\TestCase;
 
-class AddUserWorldUnitTest extends TestCase
+class AddGameUnitTest extends TestCase
 {
     public function test_happyPath(): void
     {
         $this->authorize();
 
         $response = $this->put(
-            route('api_user_add_user_world'),
+            route('api_user_add_game'),
             [
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
@@ -33,7 +33,7 @@ class AddUserWorldUnitTest extends TestCase
 
         $response->assertJsonPath(
             'data.status',
-            UserWorldStatusEnum::NEW
+            GameStatusEnum::NEW
         );
 
         $response->assertJsonPath(
@@ -117,7 +117,7 @@ class AddUserWorldUnitTest extends TestCase
     {
         // User is not authorized
         $response = $this->get(
-            route('api_user_get_user_worlds'),
+            route('api_user_get_games'),
             array_merge(
                 $this->getApiHeaders(''),
                 ['Accept-Language' => 'en']
@@ -133,7 +133,7 @@ class AddUserWorldUnitTest extends TestCase
 
         // Without access token
         $response = $this->get(
-            route('api_user_get_user_worlds'),
+            route('api_user_get_games'),
             array_merge(
                 $this->getApiHeaders(''),
                 ['Accept-Language' => 'en']
@@ -149,7 +149,7 @@ class AddUserWorldUnitTest extends TestCase
     private function assertValidationErrorData(array $requestData, array $expectedResponse): void
     {
         $response = $this->put(
-            route('api_user_add_user_world'),
+            route('api_user_add_game'),
             $requestData,
             array_merge(
                 $this->getApiHeaders($this->accessToken),

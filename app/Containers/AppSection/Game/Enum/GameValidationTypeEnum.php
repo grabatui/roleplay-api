@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\Game\Enum;
 
-enum UserWorldValidationTypeEnum
+enum GameValidationTypeEnum
 {
     case required;
 }

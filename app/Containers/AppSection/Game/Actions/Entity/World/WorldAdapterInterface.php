@@ -3,7 +3,7 @@
 namespace App\Containers\AppSection\Game\Actions\Entity\World;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
-use App\Containers\AppSection\Game\Exceptions\UserWorldValidationFailedException;
+use App\Containers\AppSection\Game\Exceptions\GameValidationFailedException;
 
 interface WorldAdapterInterface
 {
@@ -20,7 +20,7 @@ interface WorldAdapterInterface
      * @param Setting $setting
      * @param mixed $value
      * @return void
-     * @throws UserWorldValidationFailedException
+     * @throws GameValidationFailedException
      */
     public function validateSetting(Setting $setting, mixed $value): void;
 

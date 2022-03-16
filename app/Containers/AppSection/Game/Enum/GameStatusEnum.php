@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\Game\Enum;
 
-class UserWorldStatusEnum
+class GameStatusEnum
 {
     public const NEW = 'new';
     public const IN_PROGRESS = 'in_progress';

@@ -2,12 +2,12 @@
 
 namespace App\Containers\AppSection\Game\UI\API\Transformers;
 
-use App\Containers\AppSection\Game\Models\UserWorld;
+use App\Containers\AppSection\Game\Models\Game;
 use App\Containers\AppSection\User\Models\User;
 use App\Ship\Parents\Transformers\Transformer;
 use JetBrains\PhpStorm\ArrayShape;
 
-class UserWorldTransformer extends Transformer
+class GameTransformer extends Transformer
 {
     #[ArrayShape([
         'id' => "int",
@@ -18,19 +18,19 @@ class UserWorldTransformer extends Transformer
         'author' => "array",
         'players' => "array"
     ])]
-    public function transform(UserWorld $userWorld): array
+    public function transform(Game $game): array
     {
         return [
-            'id' => $userWorld->id,
-            'status' => $userWorld->status,
-            'form_settings' => $userWorld->form_settings,
-            'created_at' => $userWorld->created_at,
-            'readable_created_at' => $userWorld->created_at->diffForHumans(),
+            'id' => $game->id,
+            'status' => $game->status,
+            'form_settings' => $game->form_settings,
+            'created_at' => $game->created_at,
+            'readable_created_at' => $game->created_at->diffForHumans(),
             'author' => [
-                'id' => $userWorld->author->getHashedKey(),
-                'name' => $userWorld->author->name,
+                'id' => $game->author->getHashedKey(),
+                'name' => $game->author->name,
             ],
-            'players' => $userWorld->players->map(
+            'players' => $game->players->map(
                 static fn(User $player): array => [
                     'id' => $player->getHashedKey(),
                     'name' => $player->name,

@@ -8,25 +8,25 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property int $user_world_id
+ * @property int $game_id
  * @property int $player_id
  * @property Carbon $created_at
- * @property-read UserWorld $userWorld
+ * @property-read Game $game
  * @property-read User $player
  */
-class UserWorldPlayer extends Model
+class GamePlayer extends Model
 {
     public $timestamps = false;
 
     protected $guarded = [];
 
-    public function userWorld(): BelongsTo
+    public function game(): BelongsTo
     {
-        return $this->belongsTo(UserWorld::class);
+        return $this->belongsTo(Game::class);
     }
 
     public function player(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id', 'player_id');
     }
 }

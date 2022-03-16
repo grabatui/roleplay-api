@@ -1,36 +1,36 @@
 <?php
 
-namespace App\Containers\AppSection\Game\Tasks\UserWorld;
+namespace App\Containers\AppSection\Game\Tasks\Game;
 
-use App\Containers\AppSection\Game\Data\Repositories\UserWorldRepository;
-use App\Containers\AppSection\Game\Enum\UserWorldStatusEnum;
-use App\Containers\AppSection\Game\Models\UserWorld;
+use App\Containers\AppSection\Game\Data\Repositories\GameRepository;
+use App\Containers\AppSection\Game\Enum\GameStatusEnum;
+use App\Containers\AppSection\Game\Models\Game;
 use App\Ship\Exceptions\CreateResourceFailedException;
 use Exception;
 
-class AddUserWorldTask
+class AddGameTask
 {
     public function __construct(
-        private UserWorldRepository $userWorldRepository
+        private GameRepository $gameRepository
     ) {}
 
     /**
      * @param int $authorId
      * @param string $worldCode
      * @param array<string, string> $formSettings
-     * @return UserWorld
+     * @return Game
      * @throws CreateResourceFailedException
      */
     public function run(
         int $authorId,
         string $worldCode,
         array $formSettings
-    ): UserWorld {
+    ): Game {
         try {
-            return $this->userWorldRepository->create([
+            return $this->gameRepository->create([
                 'world_code' => $worldCode,
                 'author_id' => $authorId,
-                'status' => UserWorldStatusEnum::NEW,
+                'status' => GameStatusEnum::NEW,
                 'form_settings' => $formSettings,
             ]);
         } catch (Exception) {

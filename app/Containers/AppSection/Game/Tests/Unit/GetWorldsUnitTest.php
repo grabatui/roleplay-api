@@ -3,7 +3,7 @@
 namespace App\Containers\AppSection\Game\Tests\Unit;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\DndWorldAdapter;
-use App\Containers\AppSection\Game\Enum\UserWorldStatusEnum;
+use App\Containers\AppSection\Game\Enum\GameStatusEnum;
 use App\Containers\AppSection\Game\Tests\TestCase;
 use Carbon\Carbon;
 use DB;
@@ -16,7 +16,7 @@ class GetWorldsUnitTest extends TestCase
         $this->authorize();
 
         $response = $this->get(
-            route('api_user_get_user_worlds'),
+            route('api_user_get_games'),
             array_merge(
                 $this->getApiHeaders($this->accessToken),
                 ['Accept-Language' => 'en']
@@ -36,55 +36,55 @@ class GetWorldsUnitTest extends TestCase
 
     public function test_happyPath_withExists(): void
     {
-        $newUserWorldFormSettings = [
+        $newGameFormSettings = [
             DndWorldAdapter::TITLE => 'New world',
             DndWorldAdapter::MAX_PLAYERS_COUNT => 3,
         ];
-        $newUserWorld = [
+        $newGame = [
             'world_code' => 'dnd',
             'author_id' => $this->userId,
-            'status' => UserWorldStatusEnum::NEW,
+            'status' => GameStatusEnum::NEW,
             'created_at' => Carbon::now()->toDateString(),
             'updated_at' => Carbon::now()->toDateString(),
-            'form_settings' => json_encode($newUserWorldFormSettings),
+            'form_settings' => json_encode($newGameFormSettings),
         ];
 
-        $inProgressUserWorldFormSettings = [
+        $inProgressGameFormSettings = [
             DndWorldAdapter::TITLE => 'World in progress',
             DndWorldAdapter::MAX_PLAYERS_COUNT => 2,
         ];
-        $inProgressUserWorld = [
+        $inProgressGame = [
             'world_code' => 'dnd',
             'author_id' => $this->userId,
-            'status' => UserWorldStatusEnum::IN_PROGRESS,
+            'status' => GameStatusEnum::IN_PROGRESS,
             'created_at' => Carbon::now()->toDateString(),
             'updated_at' => Carbon::now()->toDateString(),
-            'form_settings' => json_encode($inProgressUserWorldFormSettings),
+            'form_settings' => json_encode($inProgressGameFormSettings),
         ];
 
-        $deletedUserWorldFormSettings = [
+        $deletedGameFormSettings = [
             DndWorldAdapter::TITLE => 'Deleted world',
             DndWorldAdapter::MAX_PLAYERS_COUNT => 4,
         ];
-        $deletedUserWorld = [
+        $deletedGame = [
             'world_code' => 'dnd',
             'author_id' => $this->userId,
-            'status' => UserWorldStatusEnum::DELETED,
+            'status' => GameStatusEnum::DELETED,
             'created_at' => Carbon::now()->toDateString(),
             'updated_at' => Carbon::now()->toDateString(),
-            'form_settings' => json_encode($deletedUserWorldFormSettings),
+            'form_settings' => json_encode($deletedGameFormSettings),
         ];
 
-        DB::table('user_worlds')->insert([
-            $newUserWorld,
-            $inProgressUserWorld,
-            $deletedUserWorld,
+        DB::table('games')->insert([
+            $newGame,
+            $inProgressGame,
+            $deletedGame,
         ]);
 
         $this->authorize();
 
         $response = $this->get(
-            route('api_user_get_user_worlds'),
+            route('api_user_get_games'),
             array_merge(
                 $this->getApiHeaders($this->accessToken),
                 ['Accept-Language' => 'en']
@@ -102,23 +102,23 @@ class GetWorldsUnitTest extends TestCase
         );
 
         $this->assertNotEmpty(
-            $itemsByCode['dnd']['user_worlds'] ?? []
+            $itemsByCode['dnd']['games'] ?? []
         );
 
-        $this->assertEquals($newUserWorld['status'], $itemsByCode['dnd']['user_worlds'][0]['status']);
-        $this->assertEquals($inProgressUserWorld['status'], $itemsByCode['dnd']['user_worlds'][1]['status']);
-        $this->assertEquals($deletedUserWorld['status'], $itemsByCode['dnd']['user_worlds'][2]['status']);
+        $this->assertEquals($newGame['status'], $itemsByCode['dnd']['games'][0]['status']);
+        $this->assertEquals($inProgressGame['status'], $itemsByCode['dnd']['games'][1]['status']);
+        $this->assertEquals($deletedGame['status'], $itemsByCode['dnd']['games'][2]['status']);
 
-        $this->assertEquals($newUserWorldFormSettings, $itemsByCode['dnd']['user_worlds'][0]['form_settings']);
-        $this->assertEquals($inProgressUserWorldFormSettings, $itemsByCode['dnd']['user_worlds'][1]['form_settings']);
-        $this->assertEquals($deletedUserWorldFormSettings, $itemsByCode['dnd']['user_worlds'][2]['form_settings']);
+        $this->assertEquals($newGameFormSettings, $itemsByCode['dnd']['games'][0]['form_settings']);
+        $this->assertEquals($inProgressGameFormSettings, $itemsByCode['dnd']['games'][1]['form_settings']);
+        $this->assertEquals($deletedGameFormSettings, $itemsByCode['dnd']['games'][2]['form_settings']);
     }
 
     public function test_wrongCredentials(): void
     {
         // User is not authorized
         $response = $this->get(
-            route('api_user_get_user_worlds'),
+            route('api_user_get_games'),
             array_merge(
                 $this->getApiHeaders(''),
                 ['Accept-Language' => 'en']
@@ -134,7 +134,7 @@ class GetWorldsUnitTest extends TestCase
 
         // Without access token
         $response = $this->get(
-            route('api_user_get_user_worlds'),
+            route('api_user_get_games'),
             array_merge(
                 $this->getApiHeaders(''),
                 ['Accept-Language' => 'en']

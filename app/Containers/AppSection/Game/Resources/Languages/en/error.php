@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'user_world_validation' => [
+    'game_validation' => [
         'unknown' => 'Unknown error',
         'not_exists' => 'Setting :code is unknown',
         'required' => 'Setting :code is required',

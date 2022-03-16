@@ -3,8 +3,8 @@
 namespace App\Containers\AppSection\Game\Actions\Entity\World;
 
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
-use App\Containers\AppSection\Game\Enum\UserWorldValidationTypeEnum;
-use App\Containers\AppSection\Game\Exceptions\UserWorldValidationFailedException;
+use App\Containers\AppSection\Game\Enum\GameValidationTypeEnum;
+use App\Containers\AppSection\Game\Exceptions\GameValidationFailedException;
 
 abstract class AbstractWorldAdapter implements WorldAdapterInterface
 {
@@ -22,9 +22,9 @@ abstract class AbstractWorldAdapter implements WorldAdapterInterface
     public function validateSetting(Setting $setting, mixed $value): void
     {
         if ($setting->isRequired() && !$value) {
-            throw new UserWorldValidationFailedException(
+            throw new GameValidationFailedException(
                 $setting->getCode(),
-                UserWorldValidationTypeEnum::required
+                GameValidationTypeEnum::required
             );
         }
     }

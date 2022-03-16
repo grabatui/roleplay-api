@@ -5,7 +5,7 @@ namespace App\Containers\AppSection\Game\Rules;
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterInterface;
 use Illuminate\Contracts\Validation\Rule;
 
-class UserWorldSettingsRule implements Rule
+class GameSettingsRule implements Rule
 {
     private array $requiredEmptySettings = [];
 
@@ -33,7 +33,7 @@ class UserWorldSettingsRule implements Rule
 
     public function message(): string
     {
-        return __('appSection@game::error.user_world_validation.required_not_filled', [
+        return __('appSection@game::error.game_validation.required_not_filled', [
             'codes' => implode(', ', $this->requiredEmptySettings),
         ]);
     }

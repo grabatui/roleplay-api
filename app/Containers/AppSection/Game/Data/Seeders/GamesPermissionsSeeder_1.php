@@ -8,14 +8,14 @@ use App\Containers\AppSection\Authorization\Tasks\GetAllPermissionsTask;
 use App\Ship\Parents\Seeders\Seeder;
 use Spatie\Permission\Models\Permission;
 
-class UserWorldsPermissionsSeeder_1 extends Seeder
+class GamesPermissionsSeeder_1 extends Seeder
 {
     public function run(): void
     {
         $allPermissions = app(GetAllPermissionsTask::class)->run(true);
 
         $changeUseWorldsPermission = $allPermissions?->first(
-            static fn(Permission $permission): bool => $permission->name === 'change-user-worlds',
+            static fn(Permission $permission): bool => $permission->name === 'change-games',
         );
 
         if (! App::runningUnitTests() && $changeUseWorldsPermission) {
@@ -23,6 +23,6 @@ class UserWorldsPermissionsSeeder_1 extends Seeder
         }
 
         $createPermissionTask = app(CreatePermissionTask::class);
-        $createPermissionTask->run('change-user-worlds', 'Create, Update, Delete user worlds.');
+        $createPermissionTask->run('change-games', 'Create, Update, Delete user worlds.');
     }
 }

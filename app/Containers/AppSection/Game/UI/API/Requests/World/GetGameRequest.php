@@ -2,19 +2,19 @@
 
 namespace App\Containers\AppSection\Game\UI\API\Requests\World;
 
-use App\Containers\AppSection\Game\Models\UserWorld;
-use App\Containers\AppSection\Game\Traits\IsUserWorldOwnerTrait;
+use App\Containers\AppSection\Game\Models\Game;
+use App\Containers\AppSection\Game\Traits\IsGameOwnerTrait;
 use App\Containers\AppSection\User\Traits\IsOwnerTrait;
 use App\Ship\Parents\Requests\Request;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @property-read UserWorld|null $userWorld
+ * @property-read Game|null $game
  */
-class GetUserWorldRequest extends Request
+class GetGameRequest extends Request
 {
     use IsOwnerTrait;
-    use IsUserWorldOwnerTrait;
+    use IsGameOwnerTrait;
 
     protected array $access = [
         'permissions' => '',
@@ -22,16 +22,16 @@ class GetUserWorldRequest extends Request
     ];
 
     protected array $urlParameters = [
-        'userWorld',
+        'game',
     ];
 
     #[ArrayShape([
-        'userWorld' => "array",
+        'game' => "array",
     ])]
     public function rules(): array
     {
         return [
-            'userWorld' => [
+            'game' => [
                 'required',
             ],
         ];
@@ -41,7 +41,7 @@ class GetUserWorldRequest extends Request
     {
         return $this->check([
             'hasAccess|isOwner',
-            'isUserWorldOwner',
+            'isGameOwner',
         ]);
     }
 }

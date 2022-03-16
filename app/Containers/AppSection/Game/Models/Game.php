@@ -20,7 +20,7 @@ use Illuminate\Support\Collection;
  * @property-read User $author
  * @property-read Collection $players
  */
-class UserWorld extends Model
+class Game extends Model
 {
     protected $guarded = [];
 
@@ -37,7 +37,9 @@ class UserWorld extends Model
     {
         return $this->belongsToMany(
             User::class,
-            (new UserWorldPlayer())->getTable()
+            (new GamePlayer())->getTable(),
+            'game_id',
+            'player_id'
         );
     }
 }

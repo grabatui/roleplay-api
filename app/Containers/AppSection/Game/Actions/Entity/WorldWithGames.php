@@ -6,19 +6,19 @@ use Apiato\Core\Traits\HasResourceKeyTrait;
 use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterInterface;
 use Illuminate\Support\Collection;
 
-class WorldWithUserWorlds
+class WorldWithGames
 {
     use HasResourceKeyTrait;
 
     /**
      * @param WorldAdapterInterface $world
      * @param int $userId
-     * @param Collection $userWorlds
+     * @param Collection $games
      */
     public function __construct(
         private WorldAdapterInterface $world,
         private int $userId,
-        private Collection $userWorlds
+        private Collection $games
     ) {
     }
 
@@ -32,8 +32,8 @@ class WorldWithUserWorlds
         return $this->userId;
     }
 
-    public function getUserWorlds(): Collection
+    public function getGames(): Collection
     {
-        return $this->userWorlds;
+        return $this->games;
     }
 }

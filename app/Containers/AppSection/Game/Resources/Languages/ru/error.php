@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'user_world_validation' => [
+    'game_validation' => [
         'unknown' => 'Неизвестная ошибка',
         'not_exists' => 'Неизвестная настройка :code',
         'required' => 'Настройка :code обязательна для заполнения',

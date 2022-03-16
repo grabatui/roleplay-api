@@ -10,16 +10,16 @@ class CreateUserWorldPlayersTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_world_players', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_world_id');
-            $table->unsignedBigInteger('user_id');
+        Schema::create('game_players', function (Blueprint $table) {
+            $table->unsignedBigInteger('game_id');
+            $table->unsignedBigInteger('player_id');
 
             $table->timestamp('created_at')->nullable()->useCurrent();
 
-            $table->foreign('user_world_id')->references('id')->on('user_worlds');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('player_id')->references('id')->on('users');
 
-            $table->primary(['user_world_id', 'user_id']);
+            $table->primary(['game_id', 'player_id']);
         });
     }
 
@@ -28,6 +28,6 @@ class CreateUserWorldPlayersTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_world_players');
+        Schema::dropIfExists('game_players');
     }
 }
