@@ -28,11 +28,11 @@ class AddGameRequest extends Request
         $code = $this->request->get('code');
 
         $adapter = null;
-        $isHasRequiredSettings = false;
+        $hasRequiredSettings = false;
         if ($code) {
             $adapter = WorldAdapterFactory::getByCode($code);
 
-            $isHasRequiredSettings = $adapter->hasRequiredSettings();
+            $hasRequiredSettings = $adapter->hasRequiredSettings();
         }
 
         return [
@@ -42,7 +42,7 @@ class AddGameRequest extends Request
                     WorldAdapterFactory::getCodes()
                 ),
             ],
-            'data' => $isHasRequiredSettings
+            'data' => $hasRequiredSettings
                 ? [
                     'required',
                     new GameSettingsRule($adapter)

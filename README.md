@@ -9,7 +9,7 @@ Authored by Anatoliy Bibanaev
 - [x] Get World form fields
 - [x] Get World Game
 - [x] Put World Game
-- [ ] Enter the game
+- [x] Enter the game
 - [ ] Patch World Game
 - [ ] Get World Character form fields
 - [ ] Get World Characters

@@ -116,35 +116,9 @@ class GetWorldsUnitTest extends TestCase
 
     public function test_wrongCredentials(): void
     {
-        // User is not authorized
-        $response = $this->get(
-            route('api_user_get_games'),
-            array_merge(
-                $this->getApiHeaders(''),
-                ['Accept-Language' => 'en']
-            )
+        $this->makeWrongCredentialsTests(
+            route('api_user_get_games')
         );
-
-        $response->assertJsonFragment([
-            'message' => 'An Exception occurred when trying to authenticate the User.',
-            'errors' => [],
-        ]);
-
-        $this->authorize();
-
-        // Without access token
-        $response = $this->get(
-            route('api_user_get_games'),
-            array_merge(
-                $this->getApiHeaders(''),
-                ['Accept-Language' => 'en']
-            )
-        );
-
-        $response->assertJsonFragment([
-            'message' => 'An Exception occurred when trying to authenticate the User.',
-            'errors' => [],
-        ]);
     }
 
     private function makeItemsByCode(AssertableJsonString $response): array

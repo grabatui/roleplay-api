@@ -18,4 +18,34 @@ abstract class TestCase extends ShipTestCase
             'Authorization' => 'Bearer ' . $accessToken,
         ];
     }
+
+    public function makeWrongCredentialsTests(string $url, string $method = 'get'): void
+    {
+        $headers = array_merge(
+            $this->getApiHeaders(''),
+            ['Accept-Language' => 'en']
+        );
+
+        // User is not authorized
+        $response = $method === 'get'
+            ? $this->get($url, $headers)
+            : $this->$method($url, [], $headers);
+
+        $response->assertJsonFragment([
+            'message' => 'An Exception occurred when trying to authenticate the User.',
+            'errors' => [],
+        ]);
+
+        $this->authorize();
+
+        // Without access token
+        $response = $method === 'get'
+            ? $this->get($url, $headers)
+            : $this->$method($url, [], $headers);
+
+        $response->assertJsonFragment([
+            'message' => 'An Exception occurred when trying to authenticate the User.',
+            'errors' => [],
+        ]);
+    }
 }

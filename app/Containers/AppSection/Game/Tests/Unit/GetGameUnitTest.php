@@ -12,24 +12,24 @@ use DB;
 
 class GetGameUnitTest extends TestCase
 {
-//    public function test_happyPath(): void
-//    {
-//        $this->authorize();
-//
-//        $authorizedGame = $this->createGame($this->userId);
-//
-//        $response = $this->get(
-//            route('api_user_get_game', ['game' => $authorizedGame->id]),
-//            array_merge(
-//                $this->getApiHeaders($this->accessToken),
-//                ['Accept-Language' => 'en']
-//            )
-//        );
-//
-//        $response->assertJsonPath('data.id', $authorizedGame->id);
-//        $response->assertJsonPath('data.status', $authorizedGame->status);
-//        $response->assertJsonPath('data.author.id', $authorizedGame->author->getHashedKey());
-//    }
+    public function test_happyPath(): void
+    {
+        $this->authorize();
+
+        $authorizedGame = $this->createGame($this->userId);
+
+        $response = $this->get(
+            route('api_user_get_game', ['game' => $authorizedGame->id]),
+            array_merge(
+                $this->getApiHeaders($this->accessToken),
+                ['Accept-Language' => 'en']
+            )
+        );
+
+        $response->assertJsonPath('data.id', $authorizedGame->id);
+        $response->assertJsonPath('data.status', $authorizedGame->status);
+        $response->assertJsonPath('data.author.id', $authorizedGame->author->getHashedKey());
+    }
 
     public function test_happyPath_withPlayers(): void
     {
@@ -115,35 +115,9 @@ class GetGameUnitTest extends TestCase
 
     public function test_wrongCredentials(): void
     {
-        // User is not authorized
-        $response = $this->get(
-            route('api_user_get_game', ['game' => 0]),
-            array_merge(
-                $this->getApiHeaders(''),
-                ['Accept-Language' => 'en']
-            )
+        $this->makeWrongCredentialsTests(
+            route('api_user_get_game', ['game' => 0])
         );
-
-        $response->assertJsonFragment([
-            'message' => 'An Exception occurred when trying to authenticate the User.',
-            'errors' => [],
-        ]);
-
-        $this->authorize();
-
-        // Without access token
-        $response = $this->get(
-            route('api_user_get_game', ['game' => 0]),
-            array_merge(
-                $this->getApiHeaders(''),
-                ['Accept-Language' => 'en']
-            )
-        );
-
-        $response->assertJsonFragment([
-            'message' => 'An Exception occurred when trying to authenticate the User.',
-            'errors' => [],
-        ]);
     }
 
     private function createGame(int $authorId): Game
