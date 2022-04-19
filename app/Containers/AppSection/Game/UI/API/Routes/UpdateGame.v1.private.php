@@ -2,8 +2,8 @@
 
 /**
  * @apiGroup           Game
- * @apiName            addGame
- * @api                {put} /v1/user/games Add authorized user game
+ * @apiName            updateGame
+ * @api                {patch} /v1/user/games/:game Update authorized user game
  *
  * @apiVersion         1.0.0
  * @apiPermission      Authenticated User
@@ -14,6 +14,6 @@
 use App\Containers\AppSection\Game\UI\API\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
-Route::put('user/games', [Controller::class, 'addGame'])
-    ->name('api_user_add_game')
+Route::patch('user/games/{game}', [Controller::class, 'updateGame'])
+    ->name('api_user_update_game')
     ->middleware(['auth:api']);

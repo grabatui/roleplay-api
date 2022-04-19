@@ -2,15 +2,14 @@
 
 namespace App\Containers\AppSection\Game\UI\API\Requests\World;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapterFactory;
-use App\Containers\AppSection\Game\Rules\GameSettingRule;
-use App\Containers\AppSection\Game\Rules\GameSettingsRule;
+use App\Containers\AppSection\Game\Traits\AddOrUpdateGameTrait;
 use App\Ship\Parents\Requests\Request;
-use Illuminate\Validation\Rule;
 use JetBrains\PhpStorm\ArrayShape;
 
 class AddGameRequest extends Request
 {
+    use AddOrUpdateGameTrait;
+
     protected array $access = [
         'roles' => '',
         'permissions' => '',
@@ -25,38 +24,7 @@ class AddGameRequest extends Request
     ])]
     public function rules(): array
     {
-        $code = $this->request->get('code');
-
-        $adapter = null;
-        $hasRequiredSettings = false;
-        if ($code) {
-            $adapter = WorldAdapterFactory::getByCode($code);
-
-            $hasRequiredSettings = $adapter->hasRequiredSettings();
-        }
-
-        return [
-            'code' => [
-                'required',
-                Rule::in(
-                    WorldAdapterFactory::getCodes()
-                ),
-            ],
-            'data' => $hasRequiredSettings
-                ? [
-                    'required',
-                    new GameSettingsRule($adapter)
-                ]
-                : [],
-            'data.*' => [
-                new GameSettingRule($adapter),
-            ],
-            'data.*.code' => [
-                'required',
-                'distinct',
-            ],
-            'data.*.value' => 'nullable',
-        ];
+        return $this->getDefaultDataRules();
     }
 
     public function authorize(): bool
