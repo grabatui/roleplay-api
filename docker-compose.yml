@@ -27,6 +27,7 @@ services:
       - composer:/root/.composer/cache
     depends_on:
       - postgres
+    user: "${UID}:${GID}"
   postgres:
     image: postgres:${POSTGRES_VERSION:-14}-alpine
     environment:
