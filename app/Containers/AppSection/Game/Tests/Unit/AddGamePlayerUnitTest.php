@@ -159,8 +159,8 @@ class AddGamePlayerUnitTest extends TestCase
             'status' => $status,
             'author_id' => $authorId,
             'form_settings' => [
-                DndWorldAdapter::TITLE => 'New world',
-                DndWorldAdapter::MAX_PLAYERS_COUNT => 3,
+                DndWorldAdapter::FORM_TITLE => 'New world',
+                DndWorldAdapter::FORM_MAX_PLAYERS_COUNT => 3,
             ],
         ]);
 

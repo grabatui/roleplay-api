@@ -7,7 +7,7 @@ use App\Containers\AppSection\Game\Data\Repositories\GamePlayerRepository;
 class IsPlayerInGameTask
 {
     public function __construct(
-        private GamePlayerRepository $gamePlayerRepository
+        private readonly GamePlayerRepository $gamePlayerRepository
     ) {
     }
 

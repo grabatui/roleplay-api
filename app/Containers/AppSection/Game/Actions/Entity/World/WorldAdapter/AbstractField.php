@@ -2,24 +2,17 @@
 
 namespace App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field\Type;
-use JetBrains\PhpStorm\Pure;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field\TypeEnum;
 
-class Setting
+abstract class AbstractField
 {
     private bool $isRequired = false;
     private bool $isHintExists = false;
 
-    public function __construct(
-        private string $code,
-        private Type $type
+    protected function __construct(
+        private readonly string $code,
+        private readonly TypeEnum $type
     ) {
-    }
-
-    #[Pure]
-    public static function make(string $code, Type $type): self
-    {
-        return new static($code, $type);
     }
 
     public function getCode(): string
@@ -27,7 +20,7 @@ class Setting
         return $this->code;
     }
 
-    public function getType(): Type
+    public function getType(): TypeEnum
     {
         return $this->type;
     }

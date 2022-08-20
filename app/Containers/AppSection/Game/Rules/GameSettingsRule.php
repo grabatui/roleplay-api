@@ -10,7 +10,7 @@ class GameSettingsRule implements Rule
     private array $requiredEmptySettings = [];
 
     public function __construct(
-        private ?WorldAdapterInterface $worldAdapter
+        private readonly ?WorldAdapterInterface $worldAdapter
     ) {
     }
 
@@ -22,7 +22,7 @@ class GameSettingsRule implements Rule
         );
 
         $this->requiredEmptySettings = [];
-        foreach ($this->worldAdapter->getSettings() as $setting) {
+        foreach ($this->worldAdapter->getFormFields() as $setting) {
             if ($setting->isRequired() && !in_array($setting->getCode(), $settingCodesFromRequest)) {
                 $this->requiredEmptySettings[] = $setting->getCode();
             }

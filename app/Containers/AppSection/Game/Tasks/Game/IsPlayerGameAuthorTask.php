@@ -9,7 +9,7 @@ use App\Ship\Parents\Tasks\Task;
 class IsPlayerGameAuthorTask extends Task
 {
     public function __construct(
-        private GameRepository $gameRepository
+        private readonly GameRepository $gameRepository
     ) {
     }
 

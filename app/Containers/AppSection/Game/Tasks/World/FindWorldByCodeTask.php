@@ -11,7 +11,7 @@ use Throwable;
 class FindWorldByCodeTask extends Task
 {
     public function __construct(
-        private WorldAdapterFactory $worldAdapterFactory
+        private readonly WorldAdapterFactory $worldAdapterFactory
     ) {
     }
 

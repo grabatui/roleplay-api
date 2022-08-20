@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\Game\Actions\Entity\World;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field;
 use App\Containers\AppSection\Game\Exceptions\GameValidationFailedException;
 
 interface WorldAdapterInterface
@@ -10,19 +10,24 @@ interface WorldAdapterInterface
     public static function getCode(): string;
 
     /**
-     * @return array<string, Setting>
+     * @return array<string, Field>
      */
-    public function getSettings(): array;
+    public function getFormFields(): array;
 
-    public function getSettingByCode(string $code): ?Setting;
+    public function getFormFieldByCode(string $code): ?Field;
+
+    public function hasRequiredFormFields(): bool;
 
     /**
-     * @param Setting $setting
+     * @return array<string, Field>
+     */
+    public function getCharacterFields(): array;
+
+    /**
+     * @param Field $field
      * @param mixed $value
      * @return void
      * @throws GameValidationFailedException
      */
-    public function validateSetting(Setting $setting, mixed $value): void;
-
-    public function hasRequiredSettings(): bool;
+    public function validateField(Field $field, mixed $value): void;
 }

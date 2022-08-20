@@ -25,7 +25,7 @@ class UpdateGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => 'Test title',
                     ],
                 ],
@@ -41,7 +41,7 @@ class UpdateGameUnitTest extends TestCase
         $gameAfterUpdate = DB::table('games')->where('id', $authorizedGame->id)->get()->first();
 
         $this->assertEquals(
-            json_decode(json_encode([DndWorldAdapter::TITLE => 'Test title'])),
+            json_decode(json_encode([DndWorldAdapter::FORM_TITLE => 'Test title'])),
             json_decode($gameAfterUpdate->form_settings)
         );
 
@@ -91,7 +91,7 @@ class UpdateGameUnitTest extends TestCase
             [
                 'message' => 'The given data was invalid.',
                 'errors' => [
-                    'data' => ['Required settings are not filled: ' . DndWorldAdapter::TITLE],
+                    'data' => ['Required settings are not filled: ' . DndWorldAdapter::FORM_TITLE],
                     'data.0' => ['Setting wrongSettingCode is unknown'],
                 ],
             ]
@@ -103,7 +103,7 @@ class UpdateGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => '',
                     ],
                 ],
@@ -111,7 +111,7 @@ class UpdateGameUnitTest extends TestCase
             [
                 'message' => 'The given data was invalid.',
                 'errors' => [
-                    'data.0' => ['Setting ' . DndWorldAdapter::TITLE . ' is required'],
+                    'data.0' => ['Setting ' . DndWorldAdapter::FORM_TITLE . ' is required'],
                 ],
             ]
         );
@@ -129,7 +129,7 @@ class UpdateGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => 'Test title',
                     ],
                 ],
@@ -158,7 +158,7 @@ class UpdateGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => 'Test title',
                     ],
                 ],
@@ -194,7 +194,7 @@ class UpdateGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => 'Test title',
                     ],
                 ],
@@ -222,8 +222,8 @@ class UpdateGameUnitTest extends TestCase
             'author_id' => $authorId,
             'status' => $status,
             'form_settings' => [
-                DndWorldAdapter::TITLE => 'New world',
-                DndWorldAdapter::MAX_PLAYERS_COUNT => 3,
+                DndWorldAdapter::FORM_TITLE => 'New world',
+                DndWorldAdapter::FORM_MAX_PLAYERS_COUNT => 3,
             ],
         ]);
 

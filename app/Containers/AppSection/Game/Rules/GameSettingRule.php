@@ -36,7 +36,7 @@ class GameSettingRule implements Rule
             return true;
         }
 
-        $setting = $this->worldAdapter->getSettingByCode($code);
+        $setting = $this->worldAdapter->getFormFieldByCode($code);
 
         if (!$setting) {
             $this->notExistsSetting = $code;
@@ -45,7 +45,7 @@ class GameSettingRule implements Rule
         }
 
         try {
-            $this->worldAdapter->validateSetting($setting, $value['value'] ?? null);
+            $this->worldAdapter->validateField($setting, $value['value'] ?? null);
         } catch (GameValidationFailedException $exception) {
             $this->errorMessage = $exception->getTranslatedError();
 

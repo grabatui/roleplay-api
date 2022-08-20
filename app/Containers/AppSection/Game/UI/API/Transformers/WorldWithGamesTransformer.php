@@ -2,7 +2,7 @@
 
 namespace App\Containers\AppSection\Game\UI\API\Transformers;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field;
 use App\Containers\AppSection\Game\Actions\Entity\WorldWithGames;
 use App\Containers\AppSection\Game\Models\Game;
 use App\Ship\Parents\Transformers\Transformer;
@@ -24,8 +24,8 @@ class WorldWithGamesTransformer extends Transformer
             'code' => $world::getCode(),
             'title' => __('appSection@game::world.names.' . $world::getCode()),
             'form_settings' => array_map(
-                fn(Setting $formSetting): array => $this->transformFormSetting($world::getCode(), $formSetting),
-                $world->getSettings()
+                fn(Field $formSetting): array => $this->transformFormSetting($world::getCode(), $formSetting),
+                $world->getFormFields()
             ),
             'games' => $worldWithGames->getGames()->map(
                 fn(Game $game): array => app(GameTransformer::class)->transform($game)
@@ -33,11 +33,11 @@ class WorldWithGamesTransformer extends Transformer
         ];
     }
 
-    private function transformFormSetting(string $worldCode, Setting $formSetting): array
+    private function transformFormSetting(string $worldCode, Field $formSetting): array
     {
         $result = [
             'code' => $formSetting->getCode(),
-            'type' => $formSetting->getType()->getValue(),
+            'type' => $formSetting->getType()->name,
         ];
 
         if ($formSetting->isHintExists()) {

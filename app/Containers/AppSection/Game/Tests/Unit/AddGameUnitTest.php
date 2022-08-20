@@ -18,7 +18,7 @@ class AddGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => 'Test title',
                     ],
                 ],
@@ -39,7 +39,7 @@ class AddGameUnitTest extends TestCase
         $response->assertJsonPath(
             'data.form_settings',
             [
-                DndWorldAdapter::TITLE => 'Test title',
+                DndWorldAdapter::FORM_TITLE => 'Test title',
             ]
         );
     }
@@ -87,7 +87,7 @@ class AddGameUnitTest extends TestCase
             [
                 'message' => 'The given data was invalid.',
                 'errors' => [
-                    'data' => ['Required settings are not filled: ' . DndWorldAdapter::TITLE],
+                    'data' => ['Required settings are not filled: ' . DndWorldAdapter::FORM_TITLE],
                     'data.0' => ['Setting wrongSettingCode is unknown'],
                 ],
             ]
@@ -99,7 +99,7 @@ class AddGameUnitTest extends TestCase
                 'code' => DndWorldAdapter::getCode(),
                 'data' => [
                     [
-                        'code' => DndWorldAdapter::TITLE,
+                        'code' => DndWorldAdapter::FORM_TITLE,
                         'value' => '',
                     ],
                 ],
@@ -107,7 +107,7 @@ class AddGameUnitTest extends TestCase
             [
                 'message' => 'The given data was invalid.',
                 'errors' => [
-                    'data.0' => ['Setting ' . DndWorldAdapter::TITLE . ' is required'],
+                    'data.0' => ['Setting ' . DndWorldAdapter::FORM_TITLE . ' is required'],
                 ],
             ]
         );

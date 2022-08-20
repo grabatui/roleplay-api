@@ -8,7 +8,7 @@ use App\Ship\Parents\Tasks\Task;
 class EnterGameTask extends Task
 {
     public function __construct(
-        private GamePlayerRepository $gamePlayerRepository
+        private readonly GamePlayerRepository $gamePlayerRepository
     ) {
     }
 

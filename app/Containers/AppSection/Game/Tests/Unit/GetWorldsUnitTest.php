@@ -37,8 +37,8 @@ class GetWorldsUnitTest extends TestCase
     public function test_happyPath_withExists(): void
     {
         $newGameFormSettings = [
-            DndWorldAdapter::TITLE => 'New world',
-            DndWorldAdapter::MAX_PLAYERS_COUNT => 3,
+            DndWorldAdapter::FORM_TITLE => 'New world',
+            DndWorldAdapter::FORM_MAX_PLAYERS_COUNT => 3,
         ];
         $newGame = [
             'world_code' => 'dnd',
@@ -50,8 +50,8 @@ class GetWorldsUnitTest extends TestCase
         ];
 
         $inProgressGameFormSettings = [
-            DndWorldAdapter::TITLE => 'World in progress',
-            DndWorldAdapter::MAX_PLAYERS_COUNT => 2,
+            DndWorldAdapter::FORM_TITLE => 'World in progress',
+            DndWorldAdapter::FORM_MAX_PLAYERS_COUNT => 2,
         ];
         $inProgressGame = [
             'world_code' => 'dnd',
@@ -63,8 +63,8 @@ class GetWorldsUnitTest extends TestCase
         ];
 
         $deletedGameFormSettings = [
-            DndWorldAdapter::TITLE => 'Deleted world',
-            DndWorldAdapter::MAX_PLAYERS_COUNT => 4,
+            DndWorldAdapter::FORM_TITLE => 'Deleted world',
+            DndWorldAdapter::FORM_MAX_PLAYERS_COUNT => 4,
         ];
         $deletedGame = [
             'world_code' => 'dnd',
@@ -143,7 +143,7 @@ class GetWorldsUnitTest extends TestCase
         sort($formSettingsCodes);
 
         $expectedFormSettings = array_keys(
-            (new DndWorldAdapter())->getSettings()
+            (new DndWorldAdapter())->getFormFields()
         );
 
         sort($expectedFormSettings);

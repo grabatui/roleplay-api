@@ -9,8 +9,6 @@ use App\Containers\AppSection\Game\Rules\IsPlayerNotGameAuthorRule;
 use App\Containers\AppSection\Game\Rules\IsPlayerNotInGameRule;
 use App\Containers\AppSection\User\Models\User;
 use App\Ship\Parents\Requests\Request;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @property-read Game|null $game
@@ -28,11 +26,6 @@ class AddPlayerRequest extends Request
         'player',
     ];
 
-    #[Pure]
-    #[ArrayShape([
-        'game' => "array",
-        'player' => "array",
-    ])]
     public function rules(): array
     {
         return [

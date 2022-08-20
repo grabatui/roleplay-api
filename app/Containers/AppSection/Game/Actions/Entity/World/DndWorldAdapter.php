@@ -2,31 +2,60 @@
 
 namespace App\Containers\AppSection\Game\Actions\Entity\World;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field\Type;
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
-use JetBrains\PhpStorm\ArrayShape;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field\TypeEnum;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\ListField;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Option;
 
 class DndWorldAdapter extends AbstractWorldAdapter
 {
-    public const TITLE = 'title';
-    public const MAX_PLAYERS_COUNT = 'maxPlayersCount';
+    public const FORM_TITLE = 'title';
+    public const FORM_MAX_PLAYERS_COUNT = 'maxPlayersCount';
+
+    public const CHARACTER_NAME = 'name';
+    public const CHARACTER_RACE = 'race';
+    public const CHARACTER_CLASS = 'class';
 
     public static function getCode(): string
     {
         return 'dnd';
     }
 
-    #[ArrayShape([
-        self::TITLE => "\App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting",
-        self::MAX_PLAYERS_COUNT => "\App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting"
-    ])]
-    public function getSettings(): array
+    public function getFormFields(): array
     {
         return [
-            static::TITLE => Setting::make(static::TITLE, new Type(Type::STRING))
+            static::FORM_TITLE => Field::make(static::FORM_TITLE, TypeEnum::STRING)
                 ->setIsRequired(true),
-            static::MAX_PLAYERS_COUNT => Setting::make(static::MAX_PLAYERS_COUNT, new Type(Type::INTEGER))
+            static::FORM_MAX_PLAYERS_COUNT => Field::make(static::FORM_MAX_PLAYERS_COUNT, TypeEnum::INTEGER)
                 ->setIsHintExists(true),
         ];
+    }
+
+    public function getCharacterFields(): array
+    {
+        return [
+            static::CHARACTER_NAME => Field::make(static::CHARACTER_NAME, TypeEnum::STRING)
+                ->setIsRequired(true),
+            static::CHARACTER_RACE => ListField::make(static::CHARACTER_RACE, static::getRaces())
+                ->setIsRequired(true),
+            static::CHARACTER_CLASS => ListField::make(static::CHARACTER_CLASS, static::getClasses())
+                ->setIsRequired(true),
+        ];
+    }
+
+    /**
+     * @return Option[]
+     */
+    public static function getRaces(): array
+    {
+
+    }
+
+    /**
+     * @return Option[]
+     */
+    public static function getClasses(): array
+    {
+
     }
 }

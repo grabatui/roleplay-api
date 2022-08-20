@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class GetAllWorldsTask extends Task
 {
     public function __construct(
-        private WorldAdapterFactory $worldAdapterFactory
+        private readonly WorldAdapterFactory $worldAdapterFactory
     ) {}
 
     public function run(): Collection

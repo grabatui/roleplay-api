@@ -2,41 +2,38 @@
 
 namespace App\Containers\AppSection\Game\Actions\Entity\World;
 
-use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Setting;
+use App\Containers\AppSection\Game\Actions\Entity\World\WorldAdapter\Field;
 use App\Containers\AppSection\Game\Enum\GameValidationTypeEnum;
 use App\Containers\AppSection\Game\Exceptions\GameValidationFailedException;
+use Arr;
 
 abstract class AbstractWorldAdapter implements WorldAdapterInterface
 {
-    public function getSettingByCode(string $code): ?Setting
+    public function getFormFieldByCode(string $code): ?Field
     {
-        foreach ($this->getSettings() as $setting) {
-            if ($setting->getCode() === $code) {
-                return $setting;
-            }
-        }
-
-        return null;
+        return Arr::first(
+            $this->getFormFields(),
+            static fn(Field $field): bool => $field->getCode() === $code
+        );
     }
 
-    public function validateSetting(Setting $setting, mixed $value): void
+    public function validateField(Field $field, mixed $value): void
     {
-        if ($setting->isRequired() && !$value) {
+        if ($field->isRequired() && !$value) {
             throw new GameValidationFailedException(
-                $setting->getCode(),
+                $field->getCode(),
                 GameValidationTypeEnum::required
             );
         }
     }
 
-    public function hasRequiredSettings(): bool
+    public function hasRequiredFormFields(): bool
     {
-        foreach ($this->getSettings() as $setting) {
-            if ($setting->isRequired()) {
-                return true;
-            }
-        }
-
-        return false;
+        return !is_null(
+            Arr::first(
+                $this->getFormFields(),
+                static fn(Field $field): bool => $field->isRequired()
+            )
+        );
     }
 }

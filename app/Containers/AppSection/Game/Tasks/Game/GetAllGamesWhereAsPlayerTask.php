@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 class GetAllGamesWhereAsPlayerTask
 {
     public function __construct(
-        private GameRepository $gameRepository
+        private readonly GameRepository $gameRepository
     ) {}
 
     public function run(int $userId): Collection

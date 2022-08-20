@@ -10,15 +10,10 @@ class WorldWithGames
 {
     use HasResourceKeyTrait;
 
-    /**
-     * @param WorldAdapterInterface $world
-     * @param int $userId
-     * @param Collection $games
-     */
     public function __construct(
-        private WorldAdapterInterface $world,
-        private int $userId,
-        private Collection $games
+        private readonly WorldAdapterInterface $world,
+        private readonly int $userId,
+        private readonly Collection $games
     ) {
     }
 

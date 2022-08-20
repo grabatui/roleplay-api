@@ -4,7 +4,6 @@ namespace App\Containers\AppSection\Game\UI\API\Requests\World;
 
 use App\Containers\AppSection\Game\Traits\AddOrUpdateGameTrait;
 use App\Ship\Parents\Requests\Request;
-use JetBrains\PhpStorm\ArrayShape;
 
 class AddGameRequest extends Request
 {
@@ -15,13 +14,6 @@ class AddGameRequest extends Request
         'permissions' => '',
     ];
 
-    #[ArrayShape([
-        'code' => "array",
-        'data' => "array",
-        'data.*' => "array",
-        'data.*.code' => "array",
-        'data.*.value' => "string",
-    ])]
     public function rules(): array
     {
         return $this->getDefaultDataRules();

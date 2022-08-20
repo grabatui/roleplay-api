@@ -26,7 +26,7 @@ trait AddOrUpdateGameTrait
         if ($code) {
             $adapter = WorldAdapterFactory::getByCode($code);
 
-            $hasRequiredSettings = $adapter->hasRequiredSettings();
+            $hasRequiredSettings = $adapter->hasRequiredFormFields();
         }
 
         return [

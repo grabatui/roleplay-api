@@ -6,7 +6,6 @@ use App\Containers\AppSection\Game\Models\Game;
 use App\Containers\AppSection\Game\Traits\IsGameOwnerTrait;
 use App\Containers\AppSection\User\Traits\IsOwnerTrait;
 use App\Ship\Parents\Requests\Request;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @property-read Game|null $game
@@ -25,9 +24,6 @@ class GetGameRequest extends Request
         'game',
     ];
 
-    #[ArrayShape([
-        'game' => "array",
-    ])]
     public function rules(): array
     {
         return [
